@@ -1,0 +1,56 @@
+          home: "",
+          checkout: "",
+          services: "",
+          category: "",
+          customers: "",
+          employee: "",
+          report: "",
+          yearly: "",
+          monthly: "",
+          daily: "",
+          setting: "",
+          shop: "",
+          language: "",
+          logout: "",
+          todayCheckout: "",
+          select: "",
+          service: "",
+          price: "",
+          discount: "",
+          quantity: "",
+          foc: "",
+          action: "",
+          name: "",
+          nameWithCN: "",
+          edit: "",
+          detail: "",
+
+
+
+
+           家：家，
+           結帳： 結帳，
+           服務： 服務，
+           類別： 類別，
+           客戶： 客戶，
+           僱員： 僱員，
+           報告：報告，
+           每年：每年，
+           每月：每月，
+           每日：每日，
+           設定：設置，
+           商店： 商店，
+           語言： 語言，
+           註銷： 註銷，
+           今天結帳： 今天結帳,
+           選擇：選擇，
+           服務： 服務，
+           價格： 價格，
+           折扣：折扣，
+           數量： 數量，
+           焦點： 焦點，
+           行動：行動，
+           姓名： 姓名，
+           nameWithCN: 姓名（中文）,
+           編輯：編輯，
+           細節：細節，

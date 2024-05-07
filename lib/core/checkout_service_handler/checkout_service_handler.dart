@@ -1,0 +1,43 @@
+import '../../data/service_req.dart';
+import '../../data/service.dart';
+
+class CheckoutServiceHandler {
+  static List<Service> _serviceList = [];
+  static List<ServiceReq> services = [];
+
+  static List<Map<String, dynamic>> toJsonList() {
+    List<Map<String, dynamic>> jsonList = [];
+    for (ServiceReq service in services) {
+      jsonList.add(service.toJson());
+    }
+    return jsonList;
+  }
+
+  static void addToCart(Service service) {
+    if (!_serviceList.contains(service)) {
+      _serviceList.add(service);
+      services.add(service.toReq());
+    }
+  }
+
+  static void remove(Service service) {
+    if (_serviceList.contains(service)) {
+      _serviceList.remove(service);
+      for (int i = 0; i < services.length; i++) {
+        if (service.id == services[i].id) {
+          services.removeAt(i);
+          break;
+        }
+      }
+    }
+  }
+
+  static bool checkExist(Service service) {
+    return _serviceList.contains(service);
+  }
+
+  static void clear() {
+    _serviceList = [];
+    services = [];
+  }
+}
