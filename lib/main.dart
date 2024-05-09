@@ -31,10 +31,8 @@ class MyApp extends StatelessWidget {
       ),
       translations: Languages(), // Your translations
       locale: const Locale('en', 'US'),
-      // home: const HomeScreen(),
-      // home: BluetoothDeviceScreen(),
-      // home: BluetoothConnectionScreen(),
-      home: PortSetupScreen(),
+      home: const HomeScreen(),
+      // home: PortSetupScreen(),
     );
   }
 }

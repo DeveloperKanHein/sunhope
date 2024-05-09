@@ -9,6 +9,7 @@ import 'package:sunhope_computer_software/data/purchase.dart';
 import 'package:sunhope_computer_software/screens/customer/choose_customer_screen.dart';
 import 'package:sunhope_computer_software/screens/employee/choose_employee_screen.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
+import 'package:uuid/uuid.dart';
 import '../../core/checkout_service_handler/checkout_service_handler.dart';
 import '../../data/customer.dart';
 import '../../data/employee.dart';
@@ -27,6 +28,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
   final CreatePurchaseBloc _bloc = CreatePurchaseBloc();
   Customer? customer;
   Employee? employee;
+  String? guestName;
   // List<ServiceReq> CheckoutServiceHandler.services = [];
   int getTotal(List<ServiceReq> services) {
     int total = 0;
@@ -159,7 +161,13 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                       showDialog(
                           barrierDismissible: false,
                           context: context,
-                          builder: (_) => const FingerScanWidget());
+                          builder: (_) => FingerScanWidget(
+                                onSuccess: (name) {
+                                  setState(() {
+                                    guestName = name;
+                                  });
+                                },
+                              ));
                     },
                     child: const Icon(
                       Icons.fingerprint,
@@ -333,8 +341,9 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                             employeeName: employee!.name,
                             customerId: customer!.id,
                             customerName: customer!.name,
-                            guestName: "Guest Name",
-                            guestId: "123456",
+                            guestName: guestName,
+                            fingerId:
+                                guestName != null ? const Uuid().v4() : null,
                             totalAmount:
                                 getTotal(CheckoutServiceHandler.services),
                             services: CheckoutServiceHandler.toJsonList())));

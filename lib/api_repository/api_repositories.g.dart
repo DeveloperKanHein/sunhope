@@ -20,10 +20,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<dynamic> getAll() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
       method: 'GET',
       headers: _headers,
@@ -46,10 +46,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<dynamic> home() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
       method: 'GET',
       headers: _headers,
@@ -72,10 +72,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Category>> categories() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Category>>(Options(
       method: 'GET',
@@ -101,7 +101,7 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<ResMessage> createCategory(Category category) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -129,7 +129,7 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<ResMessage> updateCategory(Category category) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -157,10 +157,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Service>> services() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Service>>(Options(
       method: 'GET',
@@ -186,10 +186,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Service>> servicesByCategoryId(String id) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Service>>(Options(
       method: 'GET',
@@ -215,7 +215,7 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<ResMessage> createService(Service service) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -243,7 +243,7 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<ResMessage> updateService(Service service) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -271,10 +271,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Customer>> customers() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Customer>>(Options(
       method: 'GET',
@@ -300,10 +300,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Customer>> searchCustomers(String name) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'name': name};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Customer>>(Options(
       method: 'GET',
@@ -329,7 +329,7 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<ResMessage> createCustomer(Customer customer) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -357,7 +357,7 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<ResMessage> updateCustomer(Customer customer) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -385,10 +385,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Employee>> employees() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Employee>>(Options(
       method: 'GET',
@@ -414,7 +414,7 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<ResMessage> createEmployee(Employee employee) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -442,7 +442,7 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<ResMessage> updateEmployee(Employee employee) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -470,7 +470,7 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<ResMessage> purchase(Purchase purchase) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -498,10 +498,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Purchase>> report() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchase>>(Options(
       method: 'GET',
@@ -527,10 +527,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Yearly>> yearly() async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Yearly>>(Options(
       method: 'GET',
@@ -556,10 +556,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Monthly>> monthly(int year) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'year': year};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Monthly>>(Options(
       method: 'GET',
@@ -588,13 +588,13 @@ class _ApiRepositories implements ApiRepositories {
     int year,
     int month,
   ) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'year': year,
       r'month': month,
     };
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Daily>>(Options(
       method: 'GET',
@@ -623,13 +623,13 @@ class _ApiRepositories implements ApiRepositories {
     String startDate,
     String endDate,
   ) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'startDate': startDate,
       r'endDate': endDate,
     };
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Daily>>(Options(
       method: 'GET',
@@ -655,10 +655,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Purchase>> reportDetail(String date) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'date': date};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchase>>(Options(
       method: 'GET',
@@ -684,10 +684,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Purchase>> reportByCustomer(String id) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchase>>(Options(
       method: 'GET',
@@ -713,10 +713,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<List<Purchase>> reportByEmployee(String id) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchase>>(Options(
       method: 'GET',
@@ -742,10 +742,10 @@ class _ApiRepositories implements ApiRepositories {
 
   @override
   Future<PurchaseDetail> purchaseById(String id) async {
-    final _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<PurchaseDetail>(Options(
       method: 'GET',

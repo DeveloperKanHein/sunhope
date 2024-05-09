@@ -16,7 +16,7 @@ PurchaseDetail _$PurchaseDetailFromJson(Map<String, dynamic> json) =>
       customerName: json['customerName'] as String?,
       totalAmount: json['totalAmount'] as int?,
       guestName: json['guestName'] as String?,
-      guestId: json['guestId'] as String?,
+      fingerId: json['fingerId'] as String?,
       services: (json['services'] as List<dynamic>?)
           ?.map((e) => PurchasedService.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -29,7 +29,7 @@ Map<String, dynamic> _$PurchaseDetailToJson(PurchaseDetail instance) =>
       'customerId': instance.customerId,
       'customerName': instance.customerName,
       'guestName': instance.guestName,
-      'guestId': instance.guestId,
+      'fingerId': instance.fingerId,
       'totalAmount': instance.totalAmount,
       'services': instance.services,
     };

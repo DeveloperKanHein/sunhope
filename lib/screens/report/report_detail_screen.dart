@@ -67,17 +67,19 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                               style: ConstTextStyles.blackF14W4Op45),
                         ],
                       ),
-
-                      // const SizedBox(width: 20),
-                      // Row(
-                      //   children: [
-                      //     const Icon(Icons.fingerprint,
-                      //         color: ConstColors.borderColor),
-                      //     const SizedBox(width: 4),
-                      //     Text("da39a3ee5e6b4b0d3255bfef",
-                      //         style: ConstTextStyles.blackF14W4Op45),
-                      //   ],
-                      // ),
+                      const SizedBox(width: 20),
+                      Text("Guest: ${detail!.guestName}",
+                          style: ConstTextStyles.blackF14W4Op45),
+                      const SizedBox(width: 20),
+                      Row(
+                        children: [
+                          const Icon(Icons.fingerprint,
+                              color: ConstColors.borderColor),
+                          const SizedBox(width: 4),
+                          Text(detail!.fingerId ?? "",
+                              style: ConstTextStyles.blackF14W4Op45),
+                        ],
+                      ),
                       const SizedBox(width: 40),
                       Row(
                         children: [

@@ -3,6 +3,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:get/get.dart';
 import 'package:sunhope_computer_software/constants/const_text_style.dart';
 import 'package:sunhope_computer_software/core/log/debug_log.dart';
+import 'package:sunhope_computer_software/screens/bluetooth_screen/port_setup_screen.dart';
 import 'package:sunhope_computer_software/screens/category/category_screen.dart';
 import 'package:sunhope_computer_software/screens/customer/customer_list_screen.dart';
 import 'package:sunhope_computer_software/screens/discount/discount_screen.dart';
@@ -173,14 +174,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       icon: const Icon(Icons.supervisor_account),
                     ),
-                    // SideMenuItem(
-                    //   title: 'Promotion',
-                    //   onTap: (index, _) {
-                    //     print(index);
-                    //     sideMenu.changePage(index);
-                    //   },
-                    //   icon: const Icon(Icons.campaign),
-                    // ),
+                    SideMenuItem(
+                      title: 'Finger Print',
+                      onTap: (index, _) {
+                        print(index);
+                        sideMenu.changePage(index);
+                      },
+                      icon: const Icon(Icons.devices),
+                    ),
                     SideMenuItem(
                       title: Languages.language.tr,
                       onTap: (index, _) {
@@ -213,11 +214,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   const DailyReportScreen(),
                   const DateRangeReportScreen(),
                   const ShopListScreen(),
+                  const PortSetupScreen(),
                   const LanguageScreen(),
 
-                  // const ReportDetailScreen(),
-                  const ShopListScreen(),
-                  // const DiscountScreen(),
                   const Center(
                     child: Text('Expansion Item 1'),
                   ),

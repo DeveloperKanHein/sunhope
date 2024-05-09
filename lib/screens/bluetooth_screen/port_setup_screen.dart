@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:sunhope_computer_software/core/log/debug_log.dart';
+import 'package:sunhope_computer_software/core/serial_port/serial_port_handler.dart';
 
 class PortSetupScreen extends StatefulWidget {
   const PortSetupScreen({super.key});
@@ -123,9 +124,10 @@ class _PortSetupScreenState extends State<PortSetupScreen> {
                   // serialPort!.openReadWrite();
                   // serialPort!.write(stringToBytes("HI"));
                   reader = SerialPortReader(port);
+                  SerialPortHandler.portReader = reader;
                   port.openReadWrite();
                 });
-                listen();
+                // listen();
               }
 
               // SerialPort sp = SerialPort(port.name ?? "");
