@@ -9,7 +9,7 @@ import 'package:sunhope_computer_software/screens/discount/discount_screen.dart'
 import 'package:sunhope_computer_software/screens/employee/employee_list_screen.dart';
 import 'package:sunhope_computer_software/screens/home/widgets/home_widet.dart';
 import 'package:sunhope_computer_software/screens/language/language_screen.dart';
-import 'package:sunhope_computer_software/screens/report/date_report_screen.dart';
+import 'package:sunhope_computer_software/screens/report/date_range_report_screen.dart';
 import 'package:sunhope_computer_software/screens/report/report_detail_screen.dart';
 import 'package:sunhope_computer_software/screens/service/service_list_screen.dart';
 import 'package:sunhope_computer_software/screens/shop/shop_list_screen.dart';
@@ -153,6 +153,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         sideMenu.changePage(index);
                       },
                     ),
+                    SideMenuItem(
+                      title: "Date Report",
+                      onTap: (index, _) {
+                        sideMenu.changePage(index);
+                      },
+                    ),
                   ],
                 ),
                 SideMenuExpansionItem(
@@ -204,16 +210,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   const EmployeeeeListScreen(),
                   const YearlyReportScreen(),
                   const MonthlyReportScreen(),
-                  DailyReportScreen(
-                      pageController: pageController,
-                      sideMenu: sideMenu,
-                      index: 7),
+                  const DailyReportScreen(),
+                  const DateRangeReportScreen(),
                   const ShopListScreen(),
                   const LanguageScreen(),
-                  // DateReportScreen(
-                  //     pageController: pageController,
-                  //     sideMenu: sideMenu,
-                  //     index: 8),
+
                   // const ReportDetailScreen(),
                   const ShopListScreen(),
                   // const DiscountScreen(),

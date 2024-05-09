@@ -5,8 +5,12 @@ import 'package:sunhope_computer_software/data/res_message.dart';
 import '../../constants/const_api_routes.dart';
 import '../data/category.dart';
 import '../data/customer.dart';
+import '../data/daily.dart';
 import '../data/employee.dart';
+import '../data/monthly.dart';
+import '../data/purchase_detail.dart';
 import '../data/service.dart';
+import '../data/yearly.dart';
 
 part 'api_repositories.g.dart';
 
@@ -71,18 +75,27 @@ abstract class ApiRepositories {
   Future<List<Purchase>> report();
 
   @GET(ConstApiRoutes.yearly)
-  Future<dynamic> yearly();
+  Future<List<Yearly>> yearly();
 
   @GET(ConstApiRoutes.monthly)
-  Future<dynamic> monthly(@Query('year') int year);
+  Future<List<Monthly>> monthly(@Query('year') int year);
 
   @GET(ConstApiRoutes.daily)
-  Future<dynamic> daily(@Query('year') int year, @Query('month') int month);
+  Future<List<Daily>> daily(@Query('year') int year, @Query('month') int month);
+
+  @GET(ConstApiRoutes.dateRangeReport)
+  Future<List<Daily>> dateRangeReport(
+      @Query('startDate') String startDate, @Query('endDate') String endDate);
 
   @GET(ConstApiRoutes.reportDetail)
-  Future<List<Purchase>> reportDetail(@Query('year') int year,
-      @Query('month') int month, @Query('day') int day);
+  Future<List<Purchase>> reportDetail(@Query('date') String date);
 
-// @GET("${ConstApiRoutes.items}/{id}")
-  // Future<List<ProductModel>> productsByCategory(@Path('id') String id);
+  @GET("${ConstApiRoutes.purchaseByCustomerId}/{id}")
+  Future<List<Purchase>> reportByCustomer(@Path('id') String id);
+
+  @GET("${ConstApiRoutes.purchaseByEmployeeId}/{id}")
+  Future<List<Purchase>> reportByEmployee(@Path('id') String id);
+
+  @GET("${ConstApiRoutes.purchaseById}/{id}")
+  Future<PurchaseDetail> purchaseById(@Path('id') String id);
 }

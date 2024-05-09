@@ -1,79 +1,76 @@
+import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sunhope_computer_software/blocs/report/report_bloc.dart';
 import 'package:sunhope_computer_software/constants/const_text_style.dart';
 import 'package:sunhope_computer_software/core/next_screen.dart';
 import 'package:sunhope_computer_software/core/show_price.dart';
-import 'package:sunhope_computer_software/screens/report/monthly_report_screen.dart';
+import 'package:sunhope_computer_software/screens/report/get_total.dart';
+import 'package:sunhope_computer_software/screens/report/report_detail_screen.dart';
 
 import '../../widgets/state_widgets.dart';
 
-class YearlyReportScreen extends StatefulWidget {
-  const YearlyReportScreen({super.key});
+class DailyDetailReportScreen extends StatefulWidget {
+  final String data;
+  final String type;
+  const DailyDetailReportScreen(
+      {super.key, required this.data, required this.type});
 
   @override
-  State<YearlyReportScreen> createState() => _YearlyReportScreenState();
+  State<DailyDetailReportScreen> createState() =>
+      _DailyDetailReportScreenState();
 }
 
-class _YearlyReportScreenState extends State<YearlyReportScreen> {
-  List<String> years = [for (int i = 2024; i < 2100; i++) i.toString()];
-  final _bloc = GetYearlyReportBloc();
+class _DailyDetailReportScreenState extends State<DailyDetailReportScreen> {
+  final _bloc = GetDetailReportBloc();
 
   @override
   void initState() {
     super.initState();
-    _bloc.add(GetYearlyReportEvent());
+    if (widget.type == 'customer') {
+      _bloc.add(GetDetailByCustomerReportEvent(id: widget.data));
+    } else if (widget.type == 'employee') {
+      _bloc.add(GetDetailByEmployeeReportEvent(id: widget.data));
+    } else if (widget.type == 'date') {
+      _bloc.add(GetDetailReportEvent(date: widget.data));
+    } else {
+      _bloc.add(GetDetailReportEvent(date: widget.data));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Yearly Report"),
+        title: widget.type == 'date'
+            ? Text("Report of ${widget.data}")
+            : const Text("History"),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 8.0),
-          //   child: DropdownButton(
-          //     icon: const Icon(Icons.keyboard_arrow_down),
-          //     focusColor: Colors.transparent,
-          //     value: "2024",
-          //     items: years.map((String items) {
-          //       return DropdownMenuItem(
-          //         value: items,
-          //         child: Text(items),
-          //       );
-          //     }).toList(),
-          //     onChanged: (String? newValue) {
-          //       setState(() {});
-          //     },
-          //   ),
-          // ),
-
           Expanded(
             child: BlocProvider(
               create: (_) => _bloc,
-              child: BlocListener<GetYearlyReportBloc, ReportState>(
+              child: BlocListener<GetDetailReportBloc, ReportState>(
                 listener: (context, state) {
                   //
                 },
-                child: BlocBuilder<GetYearlyReportBloc, ReportState>(
+                child: BlocBuilder<GetDetailReportBloc, ReportState>(
                   builder: (context, state) {
-                    if (state is YearlyReportLoading) {
+                    if (state is DetailReportLoading) {
                       return StateWidgets.loadingWidget;
                     } else if (state is ReportEmpty) {
                       return StateWidgets.emptyWidget;
                     } else if (state is ReportError) {
                       return StateWidgets.networkErrorWidget;
-                    } else if (state is YearlyReportLoaded) {
+                    } else if (state is DetailReportLoaded) {
                       return ListView(
                         children: [
                           DataTable(
                             columns: const [
                               DataColumn(
-                                  label: Text('Year',
+                                  label: Text('Customer Name',
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
@@ -89,23 +86,18 @@ class _YearlyReportScreenState extends State<YearlyReportScreen> {
                                           fontWeight: FontWeight.bold))),
                             ],
                             rows: [
-                              for (int i = 0;
-                                  i < state.yearlyReports.length;
-                                  i++)
+                              for (int i = 0; i < state.data.length; i++)
                                 DataRow(cells: [
-                                  DataCell(Text(
-                                      '${state.yearlyReports[i].yearlyID!.year}')),
+                                  DataCell(
+                                      Text("${state.data[i].customerName}")),
                                   DataCell(Text(showPrice(
-                                      state.yearlyReports[i].totalAmount ??
-                                          0))),
+                                      state.data[i].totalAmount ?? 0))),
                                   DataCell(InkWell(
                                     onTap: () {
                                       nextStfScreen(
                                           context: context,
-                                          screen: MonthlyReportScreen(
-                                            year: state.yearlyReports[i]
-                                                .yearlyID!.year!,
-                                          ));
+                                          screen: ReportDetailScreen(
+                                              id: "${state.data[i].id}"));
                                     },
                                     child: Text(
                                       "Detail",
@@ -113,6 +105,17 @@ class _YearlyReportScreenState extends State<YearlyReportScreen> {
                                     ),
                                   )),
                                 ]),
+                              DataRow(cells: [
+                                const DataCell(Text(
+                                  'Total',
+                                  style: ConstTextStyles.blackF16W5,
+                                )),
+                                DataCell(Text(
+                                  showPrice(getPurchaseTotalAmount(state.data)),
+                                  style: ConstTextStyles.blackF16W5,
+                                )),
+                                DataCell(Container()),
+                              ]),
                             ],
                           ),
                         ],

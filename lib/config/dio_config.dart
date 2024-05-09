@@ -11,15 +11,15 @@ class DioConfig {
     _dio = Dio(BaseOptions(
         baseUrl: baseUrl, headers: {"authorization": "Bearer $token"}));
 
-    // if (kDebugMode) {
-    //   _dio.interceptors.add(PrettyDioLogger(
-    //       requestHeader: true,
-    //       requestBody: true,
-    //       responseBody: true,
-    //       responseHeader: true,
-    //       error: true,
-    //       compact: true));
-    // }
+    if (kDebugMode) {
+      _dio.interceptors.add(PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: true,
+          error: true,
+          compact: true));
+    }
     return _dio;
   }
 }

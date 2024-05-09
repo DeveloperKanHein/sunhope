@@ -1,21 +1,21 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'service_req.dart';
+import 'purchased_service.dart';
+import 'customer.dart';
+import 'service.dart';
 
-part 'purchase.g.dart';
+part 'purchase_detail.g.dart';
 
 @JsonSerializable()
-class Purchase {
-  @JsonKey(name: "_id")
-  String? id;
+class PurchaseDetail {
   String? employeeId;
   String? employeeName;
-  String? customerId;
+  Customer? customerId;
   String? customerName;
   String? guestName;
   String? guestId;
   int? totalAmount;
-  List<Map<String, dynamic>>? services;
-  Purchase(
+  List<PurchasedService>? services;
+  PurchaseDetail(
       {this.employeeId,
       this.employeeName,
       this.customerId,
@@ -24,7 +24,7 @@ class Purchase {
       this.guestName,
       this.guestId,
       this.services});
-  factory Purchase.fromJson(Map<String, dynamic> json) =>
-      _$PurchaseFromJson(json);
-  Map<String, dynamic> toJson() => _$PurchaseToJson(this);
+  factory PurchaseDetail.fromJson(Map<String, dynamic> json) =>
+      _$PurchaseDetailFromJson(json);
+  Map<String, dynamic> toJson() => _$PurchaseDetailToJson(this);
 }

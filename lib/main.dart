@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sunhope_computer_software/constants/languages.dart';
+import 'package:sunhope_computer_software/screens/bluetooth_screen/bluetooth_connection_screen.dart';
+import 'package:sunhope_computer_software/screens/bluetooth_screen/bluetooth_device_screen.dart';
+import 'package:sunhope_computer_software/screens/bluetooth_screen/port_setup_screen.dart';
 import 'package:sunhope_computer_software/screens/home/home_screen.dart';
 import 'config/app_config.dart';
 import 'package:get/get.dart';
+
+import 'constants/languages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +20,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return PortSetupScreen();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -27,8 +31,10 @@ class MyApp extends StatelessWidget {
       ),
       translations: Languages(), // Your translations
       locale: const Locale('en', 'US'),
-      home: const HomeScreen(),
-      // home: const BluetoothDeviceScreen(),
+      // home: const HomeScreen(),
+      // home: BluetoothDeviceScreen(),
+      // home: BluetoothConnectionScreen(),
+      home: PortSetupScreen(),
     );
   }
 }

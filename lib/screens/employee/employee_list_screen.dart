@@ -6,8 +6,10 @@ import 'package:sunhope_computer_software/screens/employee/widgets/employee_crea
 import 'package:sunhope_computer_software/screens/employee/widgets/employee_edit_form.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
 
+import '../../core/next_screen.dart';
 import '../../data/employee.dart';
 import '../../widgets/input_field.dart';
+import '../report/daily_report_detail_screen.dart';
 
 class EmployeeeeListScreen extends StatefulWidget {
   const EmployeeeeListScreen({super.key});
@@ -234,14 +236,21 @@ class _EmployeeeeListScreenState extends State<EmployeeeeListScreen> {
                                                 style:
                                                     ConstTextStyles.blueF14W4,
                                               )),
-                                          // const SizedBox(width: 15),
-                                          // InkWell(
-                                          //     onTap: () {},
-                                          //     child: Text(
-                                          //       "Detail",
-                                          //       style: ConstTextStyles
-                                          //           .blackF14W4Op65,
-                                          //     )),
+                                          const SizedBox(width: 15),
+                                          InkWell(
+                                              onTap: () {
+                                                nextStfScreen(
+                                                    context: context,
+                                                    screen: DailyDetailReportScreen(
+                                                        type: 'employee',
+                                                        data:
+                                                            "${employees[i].id}"));
+                                              },
+                                              child: Text(
+                                                "Detail",
+                                                style: ConstTextStyles
+                                                    .blackF14W4Op65,
+                                              )),
                                         ],
                                       )),
                                     ]),

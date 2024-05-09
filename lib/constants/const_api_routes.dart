@@ -29,7 +29,9 @@ class ConstApiRoutes {
   static const String yearly = "yearly";
   static const String monthly = "monthly";
   static const String daily = "daily";
+  static const String dateRangeReport = "date-range-report";
   static const String reportDetail = "report-detail";
-
-  //
+  static const String purchaseById = "purchase-by-id";
+  static const String purchaseByCustomerId = "purchase-by-customer";
+  static const String purchaseByEmployeeId = "purchase-by-employee";
 }

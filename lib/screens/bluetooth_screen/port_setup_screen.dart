@@ -40,11 +40,13 @@ class _PortSetupScreenState extends State<PortSetupScreen> {
     setState(() => availablePorts = SerialPort.availablePorts);
   }
 
-  void listen() {
+  void listen() async {
+    await Future.delayed(const Duration(seconds: 1));
+    debugLog("I am Listener");
     if (reader != null) {
       reader!.stream.listen((data) {
-        debugLog(data);
-        debugLog("HELLO");
+        debugLog(bytesToString(data));
+        // debugLog("HELLO");
       });
     }
   }
@@ -53,12 +55,12 @@ class _PortSetupScreenState extends State<PortSetupScreen> {
   void initState() {
     super.initState();
     initPorts();
-    if (reader != null) {
-      reader!.stream.listen((data) {
-        debugLog(data);
-        debugLog("HELLO");
-      });
-    }
+    // if (reader != null) {
+    //   reader!.stream.listen((data) {
+    //     debugLog(data);
+    //     debugLog("HELLO");
+    //   });
+    // }
   }
 
   @override
@@ -117,13 +119,22 @@ class _PortSetupScreenState extends State<PortSetupScreen> {
               if (port.name != null) {
                 debugLog(port.name);
                 setState(() {
-                  serialPort = SerialPort(port.name ?? "");
-                  serialPort!.openReadWrite();
-                  serialPort!.write(stringToBytes("HI"));
-                  reader = SerialPortReader(serialPort!);
+                  serialPort = port;
+                  // serialPort!.openReadWrite();
+                  // serialPort!.write(stringToBytes("HI"));
+                  reader = SerialPortReader(port);
+                  port.openReadWrite();
                 });
-                // listen();
+                listen();
               }
+
+              // SerialPort sp = SerialPort(port.name ?? "");
+              // SerialPortReader reader = SerialPortReader(port, timeout: 10000);
+              // port.openReadWrite();
+              // // print(port.write(bytes));
+              // reader.stream.listen((data) {
+              //   print('received : $data');
+              // });
             },
             child: serialPort == null
                 ? const Text("Connect")
@@ -156,4 +167,9 @@ Uint8List stringToBytes(String data) {
   List<int> list = utf8.encode(data);
   Uint8List bytes = Uint8List.fromList(list);
   return bytes;
+}
+
+String bytesToString(Uint8List data) {
+  var decoded = utf8.decode(data);
+  return decoded;
 }

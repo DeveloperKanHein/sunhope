@@ -1,17 +1,19 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sunhope_computer_software/blocs/report/report_bloc.dart';
 import 'package:sunhope_computer_software/constants/const_text_style.dart';
+import 'package:sunhope_computer_software/core/next_screen.dart';
 import 'package:sunhope_computer_software/core/show_price.dart';
+import 'package:sunhope_computer_software/screens/report/daily_report_detail_screen.dart';
+import 'package:sunhope_computer_software/screens/report/get_total.dart';
+
+import '../../widgets/state_widgets.dart';
 
 class DailyReportScreen extends StatefulWidget {
-  final PageController pageController;
-  final SideMenuController sideMenu;
-  final int index;
-  const DailyReportScreen(
-      {super.key,
-      required this.pageController,
-      required this.sideMenu,
-      required this.index});
+  final int? year;
+  final int? month;
+  const DailyReportScreen({super.key, this.year, this.month});
 
   @override
   State<DailyReportScreen> createState() => _DailyReportScreenState();
@@ -19,6 +21,10 @@ class DailyReportScreen extends StatefulWidget {
 
 class _DailyReportScreenState extends State<DailyReportScreen> {
   List<String> years = [for (int i = 2024; i < 2050; i++) i.toString()];
+  final _bloc = GetDailyReportBloc();
+  int year = 2024;
+  int month = 1;
+  String monthName = "January";
   String getMonth(int monthNumber) {
     late String month;
     switch (monthNumber) {
@@ -69,6 +75,15 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
     for (int i = 1; i < 13; i++) {
       months.add(getMonth(i));
     }
+    if (widget.year != null && widget.month != null) {
+      setState(() {
+        year = widget.year ?? 2024;
+        int paramMonth = widget.month ?? 1;
+        month = paramMonth - 1;
+        monthName = months[month];
+      });
+    }
+    _bloc.add(GetDailyReportEvent(year: year, month: month));
   }
 
   @override
@@ -87,7 +102,7 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                 child: DropdownButton(
                   icon: const Icon(Icons.keyboard_arrow_down),
                   focusColor: Colors.transparent,
-                  value: "2024",
+                  value: "$year",
                   items: years.map((String items) {
                     return DropdownMenuItem(
                       value: items,
@@ -95,7 +110,12 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
-                    setState(() {});
+                    if (newValue != null) {
+                      setState(() {
+                        year = int.parse(newValue);
+                      });
+                      _bloc.add(GetDailyReportEvent(year: year, month: month));
+                    }
                   },
                 ),
               ),
@@ -104,7 +124,7 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                 child: DropdownButton(
                   icon: const Icon(Icons.keyboard_arrow_down),
                   focusColor: Colors.transparent,
-                  value: months[0],
+                  value: monthName,
                   items: months.map((String items) {
                     return DropdownMenuItem(
                       value: items,
@@ -112,59 +132,98 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
-                    setState(() {});
+                    if (newValue != null) {
+                      setState(() {
+                        month = months.indexOf(newValue);
+                        monthName = months[month];
+                      });
+                      _bloc.add(GetDailyReportEvent(year: year, month: month));
+                    }
                   },
                 ),
               ),
             ],
           ),
           Expanded(
-            child: ListView(
-              children: [
-                DataTable(
-                  columns: const [
-                    DataColumn(
-                        label: Text('Daily',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text('Amount',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold))),
-                    DataColumn(
-                        label: Text('Action',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold))),
-                  ],
-                  rows: [
-                    for (int i = 1; i < 32; i++)
-                      DataRow(cells: [
-                        DataCell(Text("$i/03/2024")),
-                        DataCell(Text(showPrice(3520000))),
-                        DataCell(InkWell(
-                          onTap: () {
-                            widget.sideMenu.changePage(widget.index);
-                          },
-                          child: Text(
-                            "Detail",
-                            style: ConstTextStyles.blackF14W4Op65,
+            child: BlocProvider(
+              create: (_) => _bloc,
+              child: BlocListener<GetDailyReportBloc, ReportState>(
+                listener: (context, state) {
+                  //
+                },
+                child: BlocBuilder<GetDailyReportBloc, ReportState>(
+                  builder: (context, state) {
+                    if (state is DailyReportLoading) {
+                      return StateWidgets.loadingWidget;
+                    } else if (state is ReportEmpty) {
+                      return StateWidgets.emptyWidget;
+                    } else if (state is ReportError) {
+                      return StateWidgets.networkErrorWidget;
+                    } else if (state is DailyReportLoaded) {
+                      return ListView(
+                        children: [
+                          DataTable(
+                            columns: const [
+                              DataColumn(
+                                  label: Text('Daily',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('Amount',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('Action',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                            ],
+                            rows: [
+                              for (int i = 0;
+                                  i < state.dailyReports.length;
+                                  i++)
+                                DataRow(cells: [
+                                  DataCell(Text("${state.dailyReports[i].id}")),
+                                  DataCell(Text(showPrice(
+                                      state.dailyReports[i].totalAmount ?? 0))),
+                                  DataCell(InkWell(
+                                    onTap: () {
+                                      nextStfScreen(
+                                          context: context,
+                                          screen: DailyDetailReportScreen(
+                                              type: 'date',
+                                              data:
+                                                  "${state.dailyReports[i].id}"));
+                                    },
+                                    child: Text(
+                                      "Detail",
+                                      style: ConstTextStyles.blackF14W4Op65,
+                                    ),
+                                  )),
+                                ]),
+                              DataRow(cells: [
+                                const DataCell(Text(
+                                  'Total',
+                                  style: ConstTextStyles.blackF16W5,
+                                )),
+                                DataCell(Text(
+                                  showPrice(
+                                      getDailyTotalAmount(state.dailyReports)),
+                                  style: ConstTextStyles.blackF16W5,
+                                )),
+                                DataCell(Container()),
+                              ]),
+                            ],
                           ),
-                        )),
-                      ]),
-                    DataRow(cells: [
-                      const DataCell(Text(
-                        'Total',
-                        style: ConstTextStyles.blackF16W5,
-                      )),
-                      DataCell(Text(
-                        showPrice(28000000),
-                        style: ConstTextStyles.blackF16W5,
-                      )),
-                      DataCell(Container()),
-                    ]),
-                  ],
+                        ],
+                      );
+                    }
+                    return Container();
+                  },
                 ),
-              ],
+              ),
             ),
           ),
         ],
