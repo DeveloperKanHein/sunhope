@@ -20,6 +20,10 @@ class CheckoutServiceHandler {
     }
   }
 
+  static void duplicate(ServiceReq service) {
+    services.add(service);
+  }
+
   static void remove(Service service) {
     if (_serviceList.contains(service)) {
       _serviceList.remove(service);

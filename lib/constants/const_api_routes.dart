@@ -1,5 +1,5 @@
 class ConstApiRoutes {
-  static const String stagingURL = "http://127.0.0.1:8000/api/v1/";
+  static const String stagingURL = "http://127.0.0.1:8001/api/v1/";
   static const String stagingAuthURL = "http://127.0.0.1:8000/api/v1/";
   static const String productionURL = "http://192.64.85.137:8001/api/v1/";
   static const String success = "success";

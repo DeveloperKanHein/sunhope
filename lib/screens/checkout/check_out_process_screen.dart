@@ -8,6 +8,7 @@ import 'package:sunhope_computer_software/core/show_price.dart';
 import 'package:sunhope_computer_software/data/purchase.dart';
 import 'package:sunhope_computer_software/screens/customer/choose_customer_screen.dart';
 import 'package:sunhope_computer_software/screens/employee/choose_employee_screen.dart';
+import 'package:sunhope_computer_software/screens/employee/widgets/employee_dropdown_widget.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
 import 'package:uuid/uuid.dart';
 import '../../core/checkout_service_handler/checkout_service_handler.dart';
@@ -218,6 +219,10 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold))),
                   DataColumn(
+                      label: Text('Service Girl',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  DataColumn(
                       label: Text('FOC',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold))),
@@ -279,9 +284,25 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                         ],
                       )),
                       DataCell(Text(showPrice(int.parse(
-                          '${CheckoutServiceHandler.services[i].price}')))),
-                      DataCell(Text(showPrice(int.parse(
                           '${CheckoutServiceHandler.services[i].discount}')))),
+                      DataCell(Text(showPrice(int.parse(
+                          '${CheckoutServiceHandler.services[i].price}')))),
+                      DataCell(SizedBox(
+                        width: 100,
+                        height: 50,
+                        child: EmployeeDropdownWidget(
+                          onChoose: (Employee? employee) {
+                            if (employee != null) {
+                              setState(() {
+                                CheckoutServiceHandler.services[i].employeeId =
+                                    employee.id;
+                                CheckoutServiceHandler
+                                    .services[i].employeeName = employee.name;
+                              });
+                            }
+                          },
+                        ),
+                      )),
                       DataCell(InkWell(
                         onTap: () {
                           setState(() {
@@ -293,16 +314,34 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                             ? Icons.check_box_outlined
                             : Icons.check_box_outline_blank),
                       )),
-                      DataCell(InkWell(
-                          onTap: () {
-                            setState(() {
-                              CheckoutServiceHandler.services.removeAt(i);
-                            });
-                          },
-                          child: const Icon(
-                            Icons.remove_circle,
-                            color: Colors.red,
-                          )))
+                      DataCell(
+                        Row(
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    CheckoutServiceHandler.duplicate(
+                                        CheckoutServiceHandler.services[i]);
+                                  });
+                                },
+                                child: const Icon(
+                                  Icons.copy,
+                                  color: Colors.blue,
+                                )),
+                            const SizedBox(width: 20),
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    CheckoutServiceHandler.services.removeAt(i);
+                                  });
+                                },
+                                child: const Icon(
+                                  Icons.remove_circle,
+                                  color: Colors.red,
+                                )),
+                          ],
+                        ),
+                      )
                     ]),
                   DataRow(cells: [
                     const DataCell(Text(
@@ -315,6 +354,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                       showPrice(getTotal(CheckoutServiceHandler.services)),
                       style: ConstTextStyles.blackF16W5,
                     )),
+                    DataCell(Container()),
                     DataCell(Container()),
                     DataCell(Container()),
                   ]),
@@ -337,8 +377,6 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                   onPressed: () {
                     _bloc.add(CreatePurchaseEvent(
                         purchase: Purchase(
-                            employeeId: employee!.id,
-                            employeeName: employee!.name,
                             customerId: customer!.id,
                             customerName: customer!.name,
                             guestName: guestName,

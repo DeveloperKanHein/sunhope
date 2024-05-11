@@ -4,6 +4,8 @@ class ServiceReq {
   String? nameCN;
   int? price;
   int? discount;
+  String? employeeId;
+  String? employeeName;
   int? quantity;
   bool? isFoc;
   String? createdAt;
@@ -13,6 +15,8 @@ class ServiceReq {
       this.nameCN,
       this.price,
       this.discount,
+      this.employeeId,
+      this.employeeName,
       this.quantity = 1,
       this.isFoc = false,
       this.createdAt});
@@ -22,6 +26,8 @@ class ServiceReq {
         nameCN: json['nameCN'],
         price: json['price'],
         discount: json['discount'],
+        employeeId: json['employeeId'],
+        employeeName: json['employeeName'],
         quantity: json['quantity'],
         isFoc: json['isFoc'],
         createdAt: json['createdAt'],
@@ -32,6 +38,8 @@ class ServiceReq {
         "nameCN": nameCN,
         "price": price,
         "discount": discount,
+        "employeeId": employeeId,
+        "employeeName": employeeName,
         "quantity": quantity,
         "isFoc": isFoc,
         "createdAt": createdAt
