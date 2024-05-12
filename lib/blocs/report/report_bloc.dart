@@ -5,6 +5,7 @@ import '../../api_repository/api_repo_singleton.dart';
 import '../../data/daily.dart';
 import '../../data/monthly.dart';
 import '../../data/purchase.dart';
+import '../../data/purchased.dart';
 import '../../data/yearly.dart';
 
 part 'report_event.dart';
@@ -92,7 +93,7 @@ class GetDetailReportBloc extends Bloc<ReportEvent, ReportState> {
       if (event is GetDetailReportEvent) {
         try {
           emit(DetailReportLoading());
-          List<Purchase> reports =
+          List<Purchased> reports =
               await ApiRepoSingleton.instance.reportDetail(event.date);
           if (reports.isNotEmpty) {
             emit(DetailReportLoaded(data: reports));
@@ -105,7 +106,7 @@ class GetDetailReportBloc extends Bloc<ReportEvent, ReportState> {
       } else if (event is GetDetailByCustomerReportEvent) {
         try {
           emit(DetailReportLoading());
-          List<Purchase> reports =
+          List<Purchased> reports =
               await ApiRepoSingleton.instance.reportByCustomer(event.id);
           if (reports.isNotEmpty) {
             emit(DetailReportLoaded(data: reports));
@@ -118,7 +119,7 @@ class GetDetailReportBloc extends Bloc<ReportEvent, ReportState> {
       } else if (event is GetDetailByEmployeeReportEvent) {
         try {
           emit(DetailReportLoading());
-          List<Purchase> reports =
+          List<Purchased> reports =
               await ApiRepoSingleton.instance.reportByEmployee(event.id);
           if (reports.isNotEmpty) {
             emit(DetailReportLoaded(data: reports));

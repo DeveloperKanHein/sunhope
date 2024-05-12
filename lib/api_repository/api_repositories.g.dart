@@ -654,13 +654,13 @@ class _ApiRepositories implements ApiRepositories {
   }
 
   @override
-  Future<List<Purchase>> reportDetail(String date) async {
+  Future<List<Purchased>> reportDetail(String date) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'date': date};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchase>>(Options(
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchased>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -677,19 +677,19 @@ class _ApiRepositories implements ApiRepositories {
               baseUrl,
             ))));
     var value = _result.data!
-        .map((dynamic i) => Purchase.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => Purchased.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
 
   @override
-  Future<List<Purchase>> reportByCustomer(String id) async {
+  Future<List<Purchased>> reportByCustomer(String id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchase>>(Options(
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchased>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -706,19 +706,19 @@ class _ApiRepositories implements ApiRepositories {
               baseUrl,
             ))));
     var value = _result.data!
-        .map((dynamic i) => Purchase.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => Purchased.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
 
   @override
-  Future<List<Purchase>> reportByEmployee(String id) async {
+  Future<List<Purchased>> reportByEmployee(String id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchase>>(Options(
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Purchased>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -735,7 +735,7 @@ class _ApiRepositories implements ApiRepositories {
               baseUrl,
             ))));
     var value = _result.data!
-        .map((dynamic i) => Purchase.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => Purchased.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }

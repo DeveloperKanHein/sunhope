@@ -1,17 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'purchase.dart';
+part of 'purchased.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Purchase _$PurchaseFromJson(Map<String, dynamic> json) => Purchase(
+Purchased _$PurchasedFromJson(Map<String, dynamic> json) => Purchased(
       employeeId: json['employeeId'] as String?,
       employeeName: json['employeeName'] as String?,
-      customerId: json['customerId'] as String?,
+      customerId: json['customerId'] == null
+          ? null
+          : Customer.fromJson(json['customerId'] as Map<String, dynamic>),
       customerName: json['customerName'] as String?,
       totalAmount: json['totalAmount'] as int?,
+      balance: json['balance'] as int?,
       guestName: json['guestName'] as String?,
       fingerId: json['fingerId'] as String?,
       services: (json['services'] as List<dynamic>?)
@@ -20,7 +23,7 @@ Purchase _$PurchaseFromJson(Map<String, dynamic> json) => Purchase(
       createdAt: json['createdAt'] as String?,
     )..id = json['_id'] as String?;
 
-Map<String, dynamic> _$PurchaseToJson(Purchase instance) => <String, dynamic>{
+Map<String, dynamic> _$PurchasedToJson(Purchased instance) => <String, dynamic>{
       '_id': instance.id,
       'employeeId': instance.employeeId,
       'employeeName': instance.employeeName,
@@ -29,6 +32,7 @@ Map<String, dynamic> _$PurchaseToJson(Purchase instance) => <String, dynamic>{
       'guestName': instance.guestName,
       'fingerId': instance.fingerId,
       'totalAmount': instance.totalAmount,
+      'balance': instance.balance,
       'services': instance.services,
       'createdAt': instance.createdAt,
     };

@@ -70,12 +70,22 @@ class _DailyDetailReportScreenState extends State<DailyDetailReportScreen> {
                           DataTable(
                             columns: const [
                               DataColumn(
+                                  label: Text('Date',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
                                   label: Text('Customer Name',
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
                               DataColumn(
                                   label: Text('Amount',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('Balance',
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
@@ -88,10 +98,14 @@ class _DailyDetailReportScreenState extends State<DailyDetailReportScreen> {
                             rows: [
                               for (int i = 0; i < state.data.length; i++)
                                 DataRow(cells: [
+                                  DataCell(Text(
+                                      state.data[i].createdAt!.split("T")[0])),
                                   DataCell(
                                       Text("${state.data[i].customerName}")),
                                   DataCell(Text(showPrice(
                                       state.data[i].totalAmount ?? 0))),
+                                  DataCell(Text(
+                                      showPrice(state.data[i].balance ?? 0))),
                                   DataCell(InkWell(
                                     onTap: () {
                                       nextStfScreen(
@@ -106,6 +120,7 @@ class _DailyDetailReportScreenState extends State<DailyDetailReportScreen> {
                                   )),
                                 ]),
                               DataRow(cells: [
+                                DataCell(Container()),
                                 const DataCell(Text(
                                   'Total',
                                   style: ConstTextStyles.blackF16W5,
@@ -114,6 +129,7 @@ class _DailyDetailReportScreenState extends State<DailyDetailReportScreen> {
                                   showPrice(getPurchaseTotalAmount(state.data)),
                                   style: ConstTextStyles.blackF16W5,
                                 )),
+                                DataCell(Container()),
                                 DataCell(Container()),
                               ]),
                             ],

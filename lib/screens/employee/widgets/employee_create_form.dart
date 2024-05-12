@@ -27,16 +27,16 @@ class EmployeeCreateForm extends StatelessWidget {
         child: Column(
           children: [
             InputField(controller: name, label: "Name", onTyping: (_) {}),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: InputField(
-                controller: phone,
-                label: "Phone number",
-                onTyping: (_) {},
-                inputType: TextInputType.phone,
-              ),
-            ),
-            InputField(controller: role, label: "Role", onTyping: (_) {}),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 10.0),
+            //   child: InputField(
+            //     controller: phone,
+            //     label: "Phone number",
+            //     onTyping: (_) {},
+            //     inputType: TextInputType.phone,
+            //   ),
+            // ),
+            // InputField(controller: role, label: "Role", onTyping: (_) {}),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: InputField(
@@ -64,8 +64,8 @@ class EmployeeCreateForm extends StatelessWidget {
           onTap: () {
             onCreate(Employee(
                 name: name.text,
-                phone: phone.text,
-                role: role.text,
+                // phone: phone.text,
+                // role: role.text,
                 nickname: nickname.text,
                 employeeID: employeeId.text));
           },

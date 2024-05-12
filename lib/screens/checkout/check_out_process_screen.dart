@@ -175,23 +175,23 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                       size: 20,
                     )),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: const ChooseEmployeeScreen()))
-                      .then((value) {
-                    setState(() {
-                      employee = value["employee"];
-                    });
-                  });
-                },
-                child: employee == null
-                    ? const Text("Choose Employee")
-                    : Text(employee!.name ?? ""),
-              ),
+              // TextButton(
+              //   onPressed: () {
+              //     Navigator.push(
+              //             context,
+              //             PageTransition(
+              //                 type: PageTransitionType.rightToLeft,
+              //                 child: const ChooseEmployeeScreen()))
+              //         .then((value) {
+              //       setState(() {
+              //         employee = value["employee"];
+              //       });
+              //     });
+              //   },
+              //   child: employee == null
+              //       ? const Text("Choose Employee")
+              //       : Text(employee!.name ?? ""),
+              // ),
             ],
           ),
         ),

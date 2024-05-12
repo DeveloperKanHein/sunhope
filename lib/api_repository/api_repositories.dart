@@ -9,6 +9,7 @@ import '../data/daily.dart';
 import '../data/employee.dart';
 import '../data/monthly.dart';
 import '../data/purchase_detail.dart';
+import '../data/purchased.dart';
 import '../data/service.dart';
 import '../data/yearly.dart';
 
@@ -88,13 +89,13 @@ abstract class ApiRepositories {
       @Query('startDate') String startDate, @Query('endDate') String endDate);
 
   @GET(ConstApiRoutes.reportDetail)
-  Future<List<Purchase>> reportDetail(@Query('date') String date);
+  Future<List<Purchased>> reportDetail(@Query('date') String date);
 
   @GET("${ConstApiRoutes.purchaseByCustomerId}/{id}")
-  Future<List<Purchase>> reportByCustomer(@Path('id') String id);
+  Future<List<Purchased>> reportByCustomer(@Path('id') String id);
 
   @GET("${ConstApiRoutes.purchaseByEmployeeId}/{id}")
-  Future<List<Purchase>> reportByEmployee(@Path('id') String id);
+  Future<List<Purchased>> reportByEmployee(@Path('id') String id);
 
   @GET("${ConstApiRoutes.purchaseById}/{id}")
   Future<PurchaseDetail> purchaseById(@Path('id') String id);

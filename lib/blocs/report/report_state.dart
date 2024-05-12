@@ -41,7 +41,7 @@ class DetailReportLoading extends ReportState {
 }
 
 class DetailReportLoaded extends ReportState {
-  final List<Purchase> data;
+  final List<Purchased> data;
   DetailReportLoaded({required this.data});
 }
 

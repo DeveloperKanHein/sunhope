@@ -17,10 +17,10 @@ class EmployeeEditForm extends StatelessWidget {
   EmployeeEditForm(
       {super.key, required this.employee, required this.onUpdate}) {
     nameEditor.text = employee.name ?? "";
-    phoneEditor.text = employee.phone ?? "";
+    // phoneEditor.text = employee.phone ?? "";
     employeeId.text = employee.employeeID ?? "";
     nickname.text = employee.nickname ?? "";
-    role.text = employee.role ?? "";
+    // role.text = employee.role ?? "";
   }
 
   @override
@@ -36,16 +36,16 @@ class EmployeeEditForm extends StatelessWidget {
         child: Column(
           children: [
             InputField(controller: nameEditor, label: "Name", onTyping: (_) {}),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: InputField(
-                controller: phoneEditor,
-                label: "Phone number",
-                onTyping: (_) {},
-                inputType: TextInputType.phone,
-              ),
-            ),
-            InputField(controller: role, label: "Role", onTyping: (_) {}),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 10.0),
+            //   child: InputField(
+            //     controller: phoneEditor,
+            //     label: "Phone number",
+            //     onTyping: (_) {},
+            //     inputType: TextInputType.phone,
+            //   ),
+            // ),
+            // InputField(controller: role, label: "Role", onTyping: (_) {}),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: InputField(
@@ -74,8 +74,8 @@ class EmployeeEditForm extends StatelessWidget {
             onUpdate(Employee(
                 id: employee.id,
                 name: nameEditor.text,
-                phone: phoneEditor.text,
-                role: role.text,
+                // phone: phoneEditor.text,
+                // role: role.text,
                 nickname: nickname.text,
                 employeeID: employeeId.text));
           },

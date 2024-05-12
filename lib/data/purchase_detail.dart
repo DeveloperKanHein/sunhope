@@ -14,16 +14,19 @@ class PurchaseDetail {
   String? guestName;
   String? fingerId;
   int? totalAmount;
+  String? createdAt;
   List<PurchasedService>? services;
-  PurchaseDetail(
-      {this.employeeId,
-      this.employeeName,
-      this.customerId,
-      this.customerName,
-      this.totalAmount,
-      this.guestName,
-      this.fingerId,
-      this.services});
+  PurchaseDetail({
+    this.employeeId,
+    this.employeeName,
+    this.customerId,
+    this.customerName,
+    this.totalAmount,
+    this.guestName,
+    this.fingerId,
+    this.services,
+    this.createdAt,
+  });
   factory PurchaseDetail.fromJson(Map<String, dynamic> json) =>
       _$PurchaseDetailFromJson(json);
   Map<String, dynamic> toJson() => _$PurchaseDetailToJson(this);

@@ -68,7 +68,16 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                         ],
                       ),
                       const SizedBox(width: 20),
-                      Text("Guest: ${detail!.guestName}",
+                      Row(
+                        children: [
+                          const Icon(Icons.account_balance_wallet,
+                              color: ConstColors.borderColor),
+                          Text(showPrice(detail!.customerId!.balance ?? 0),
+                              style: ConstTextStyles.blackF14W4Op45),
+                        ],
+                      ),
+                      const SizedBox(width: 20),
+                      Text("Guest: ${detail!.guestName ?? "-"}",
                           style: ConstTextStyles.blackF14W4Op45),
                       const SizedBox(width: 20),
                       Row(
@@ -80,13 +89,13 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                               style: ConstTextStyles.blackF14W4Op45),
                         ],
                       ),
-                      const SizedBox(width: 40),
-                      Row(
-                        children: [
-                          Text("Employee: ${detail!.employeeName}",
-                              style: ConstTextStyles.blackF14W4Op45),
-                        ],
-                      ),
+                      // const SizedBox(width: 40),
+                      // Row(
+                      //   children: [
+                      //     Text("Employee: ${detail!.employeeName}",
+                      //         style: ConstTextStyles.blackF14W4Op45),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
@@ -97,7 +106,17 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                       DataTable(
                         columns: const [
                           DataColumn(
+                              label: Text('Date',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
                               label: Text('Service',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold))),
+                          DataColumn(
+                              label: Text('Price',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold))),
@@ -107,7 +126,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold))),
                           DataColumn(
-                              label: Text('Price',
+                              label: Text('Service Girl',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold))),
@@ -120,6 +139,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                         rows: [
                           for (int i = 0; i < services.length; i++)
                             DataRow(cells: [
+                              DataCell(Text(detail!.createdAt!.split("T")[0])),
                               DataCell(Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -127,14 +147,16 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                                   Text("${services[i].nameCN}"),
                                 ],
                               )),
+                              DataCell(Text(showPrice(services[i].price ?? 0))),
                               DataCell(
                                   Text(showPrice(services[i].discount ?? 0))),
-                              DataCell(Text(showPrice(services[i].price ?? 0))),
+                              DataCell(Text(services[i].employeeName ?? "")),
                               DataCell(Icon(services[i].isFoc!
                                   ? Icons.check_box
                                   : Icons.check_box_outline_blank)),
                             ]),
                           DataRow(cells: [
+                            DataCell(Container()),
                             const DataCell(Text(
                               'Total',
                               style: ConstTextStyles.blackF16W5,
@@ -144,6 +166,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                               showPrice(detail!.totalAmount ?? 0),
                               style: ConstTextStyles.blackF16W5,
                             )),
+                            DataCell(Container()),
                             DataCell(Container()),
                           ]),
                         ],
