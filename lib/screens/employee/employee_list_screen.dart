@@ -169,16 +169,16 @@ class _EmployeeeeListScreenState extends State<EmployeeeeListScreen> {
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
-                              DataColumn(
-                                  label: Text('Phone',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
-                              DataColumn(
-                                  label: Text('Role',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
+                              // DataColumn(
+                              //     label: Text('Phone',
+                              //         style: TextStyle(
+                              //             fontSize: 18,
+                              //             fontWeight: FontWeight.bold))),
+                              // DataColumn(
+                              //     label: Text('Role',
+                              //         style: TextStyle(
+                              //             fontSize: 18,
+                              //             fontWeight: FontWeight.bold))),
                               DataColumn(
                                   label: Text('ID',
                                       style: TextStyle(
@@ -203,10 +203,10 @@ class _EmployeeeeListScreenState extends State<EmployeeeeListScreen> {
                                     cells: [
                                       DataCell(Text('${i + 1}')),
                                       DataCell(Text(employees[i].name ?? "")),
-                                      DataCell(Text(employees[i]
-                                          .phone!
-                                          .replaceAll(",", "\n"))),
-                                      DataCell(Text(employees[i].role ?? "")),
+                                      // DataCell(Text(employees[i]
+                                      //     .phone!
+                                      //     .replaceAll(",", "\n"))),
+                                      // DataCell(Text(employees[i].role ?? "")),
                                       DataCell(
                                           Text(employees[i].employeeID ?? "")),
                                       DataCell(

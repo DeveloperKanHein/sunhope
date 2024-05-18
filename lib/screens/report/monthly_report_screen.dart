@@ -124,66 +124,72 @@ class _MonthlyReportScreenState extends State<MonthlyReportScreen> {
                     } else if (state is MonthlyReportLoaded) {
                       return ListView(
                         children: [
-                          DataTable(
-                            columns: const [
-                              DataColumn(
-                                  label: Text('Month',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
-                              DataColumn(
-                                  label: Text('Amount',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
-                              DataColumn(
-                                  label: Text('Action',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
-                            ],
-                            rows: [
-                              for (int i = 0;
-                                  i < state.monthlyReports.length;
-                                  i++)
-                                DataRow(cells: [
-                                  DataCell(Text(getMonth(state
-                                          .monthlyReports[i].monthlyID!.month ??
-                                      1))),
-                                  DataCell(Text(showPrice(
-                                      state.monthlyReports[i].totalAmount ??
-                                          0))),
-                                  DataCell(InkWell(
-                                    onTap: () {
-                                      nextStfScreen(
-                                          context: context,
-                                          screen: DailyReportScreen(
-                                            year: state.monthlyReports[i]
-                                                    .monthlyID!.year ??
-                                                2024,
-                                            month: state.monthlyReports[i]
-                                                    .monthlyID!.month ??
-                                                1,
-                                          ));
-                                    },
-                                    child: Text(
-                                      "Detail",
-                                      style: ConstTextStyles.blackF14W4Op65,
-                                    ),
-                                  )),
-                                ]),
-                              DataRow(cells: [
-                                const DataCell(Text(
-                                  'Total',
-                                  style: ConstTextStyles.blackF16W5,
-                                )),
-                                DataCell(Text(
-                                  showPrice(getMonthlyTotalAmount(
-                                      state.monthlyReports)),
-                                  style: ConstTextStyles.blackF16W5,
-                                )),
-                                DataCell(Container()),
-                              ]),
+                          Column(
+                            children: [
+                              DataTable(
+                                columns: const [
+                                  DataColumn(
+                                      label: Text('Month',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold))),
+                                  DataColumn(
+                                      label: Text('Amount',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold))),
+                                  DataColumn(
+                                      label: Text('Action',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold))),
+                                ],
+                                rows: [
+                                  for (int i = 0;
+                                      i < state.monthlyReports.length;
+                                      i++)
+                                    DataRow(cells: [
+                                      DataCell(Text(getMonth(state
+                                              .monthlyReports[i]
+                                              .monthlyID!
+                                              .month ??
+                                          1))),
+                                      DataCell(Text(showPrice(
+                                          state.monthlyReports[i].totalAmount ??
+                                              0))),
+                                      DataCell(InkWell(
+                                        onTap: () {
+                                          nextStfScreen(
+                                              context: context,
+                                              screen: DailyReportScreen(
+                                                year: state.monthlyReports[i]
+                                                        .monthlyID!.year ??
+                                                    2024,
+                                                month: state.monthlyReports[i]
+                                                        .monthlyID!.month ??
+                                                    1,
+                                              ));
+                                        },
+                                        child: Text(
+                                          "Detail",
+                                          style: ConstTextStyles.blackF14W4Op65,
+                                        ),
+                                      )),
+                                    ]),
+                                  DataRow(cells: [
+                                    const DataCell(Text(
+                                      'Total',
+                                      style: ConstTextStyles.blackF16W5,
+                                    )),
+                                    DataCell(Text(
+                                      showPrice(getMonthlyTotalAmount(
+                                          state.monthlyReports)),
+                                      style: ConstTextStyles.blackF16W5,
+                                    )),
+                                    DataCell(Container()),
+                                  ]),
+                                ],
+                              ),
                             ],
                           ),
                         ],

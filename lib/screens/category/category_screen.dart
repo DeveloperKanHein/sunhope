@@ -54,7 +54,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         //   ),
         // ],
       ),
-      body: Stack(
+      body: Column(
         children: [
           BlocProvider(
             create: (_) => _createCategoryBloc,
@@ -225,25 +225,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
               ),
             ),
           ),
-          Positioned(
-            bottom: 20,
-            right: 20,
-            child: FloatingActionButton(
-              onPressed: () {
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (_) => CategoryCreateForm(
-                          onCreate: (Category category) {
-                            _createCategoryBloc
-                                .add(CreateCategoryEvent(category: category));
-                          },
-                        ));
-              },
-              child: const Icon(Icons.add),
-            ),
-          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (_) => CategoryCreateForm(
+                    onCreate: (Category category) {
+                      _createCategoryBloc
+                          .add(CreateCategoryEvent(category: category));
+                    },
+                  ));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
