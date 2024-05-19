@@ -7,8 +7,9 @@ import '../../../data/employee.dart';
 import '../../../widgets/state_widgets.dart';
 
 class EmployeeDropdownWidget extends StatefulWidget {
+  String? employeeId;
   final Function(Employee?) onChoose;
-  const EmployeeDropdownWidget({super.key, required this.onChoose});
+  EmployeeDropdownWidget({super.key, required this.onChoose, this.employeeId});
 
   @override
   State<EmployeeDropdownWidget> createState() => _EmployeeDropdownWidgetState();
@@ -44,10 +45,21 @@ class _EmployeeDropdownWidgetState extends State<EmployeeDropdownWidget> {
           if (state is EmployeeLoaded) {
             _employees = state.employees;
             if (state.employees.isNotEmpty) {
-              widget.onChoose(state.employees[0]);
-              setState(() {
-                employeeId = state.employees[0].id;
-              });
+              if (widget.employeeId == null) {
+                widget.onChoose(state.employees[0]);
+                setState(() {
+                  employeeId = state.employees[0].id;
+                });
+              } else {
+                for (Employee employee in state.employees) {
+                  if (widget.employeeId == employee.id) {
+                    widget.onChoose(employee);
+                    setState(() {
+                      employeeId = employee.id;
+                    });
+                  }
+                }
+              }
             }
           }
         },

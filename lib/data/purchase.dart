@@ -16,6 +16,7 @@ class Purchase {
   String? fingerId;
   int? totalAmount;
   List<Map<String, dynamic>>? services;
+  int? cash;
   String? createdAt;
   Purchase(
       {this.employeeId,
@@ -26,6 +27,7 @@ class Purchase {
       this.guestName,
       this.fingerId,
       this.services,
+      this.cash,
       this.createdAt});
   factory Purchase.fromJson(Map<String, dynamic> json) =>
       _$PurchaseFromJson(json);

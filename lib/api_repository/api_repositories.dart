@@ -1,5 +1,6 @@
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+import 'package:sunhope_computer_software/data/fill_topup.dart';
 import 'package:sunhope_computer_software/data/purchase.dart';
 import 'package:sunhope_computer_software/data/res_message.dart';
 import '../../constants/const_api_routes.dart';
@@ -39,6 +40,9 @@ abstract class ApiRepositories {
   @GET("${ConstApiRoutes.services}/{id}")
   Future<List<Service>> servicesByCategoryId(@Path('id') String id);
 
+  @GET(ConstApiRoutes.searchServices)
+  Future<List<Service>> searchServices(@Query('name') String name);
+
   @POST(ConstApiRoutes.service)
   Future<ResMessage> createService(@Body() Service service);
 
@@ -56,6 +60,9 @@ abstract class ApiRepositories {
 
   @PUT(ConstApiRoutes.customer)
   Future<ResMessage> updateCustomer(@Body() Customer customer);
+
+  @POST(ConstApiRoutes.topup)
+  Future<ResMessage> topup(@Body() FillTopup topup);
 
   @GET(ConstApiRoutes.employees)
   Future<List<Employee>> employees();

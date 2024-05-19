@@ -19,6 +19,8 @@ class GetServiceBloc extends Bloc<ServiceEvent, ServiceState> {
         } else if (event is GetServiceByCategoryEvent) {
           services =
               await ApiRepoSingleton.instance.servicesByCategoryId(event.id);
+        } else if (event is SearchServiceEvent) {
+          services = await ApiRepoSingleton.instance.searchServices(event.name);
         }
         if (services.isNotEmpty) {
           emit(ServiceLoaded(services: services));

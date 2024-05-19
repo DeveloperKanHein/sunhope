@@ -37,7 +37,31 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("Checkout"),
-        centerTitle: true,
+        // centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: SizedBox(
+              width: 200,
+              height: 40,
+              child: InputField(
+                controller: _searchService,
+                label: "Search",
+                onTyping: (_) {},
+                suffixWidget: InkWell(
+                    onTap: () {
+                      if (_searchService.text.isNotEmpty) {
+                        _getServiceBloc
+                            .add(SearchServiceEvent(name: _searchService.text));
+                      } else {
+                        _getServiceBloc.add(GetServiceEvent());
+                      }
+                    },
+                    child: const Icon(Icons.search)),
+              ),
+            ),
+          ),
+        ],
       ),
       body: isProcess
           ? CheckOutProcessScreen(

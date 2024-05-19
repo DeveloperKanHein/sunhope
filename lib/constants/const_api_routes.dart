@@ -5,7 +5,7 @@ class ConstApiRoutes {
   static const String success = "success";
   static const String fail = "fail";
   static const String productionAuthURL = "";
-  static const String basedURL = productionURL;
+  static const String basedURL = stagingURL;
   // static const String prefix = "api/v1/";
   // auth
   static const String login = "login";
@@ -16,6 +16,7 @@ class ConstApiRoutes {
   static const String categories = "categories";
   static const String service = "service";
   static const String services = "services";
+  static const String searchServices = "search-services";
   static const String promotion = "promotion";
   static const String promotions = "promotions";
   static const String customer = "customer";

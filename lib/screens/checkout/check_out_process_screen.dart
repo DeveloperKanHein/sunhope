@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sunhope_computer_software/blocs/purchase/purchase_bloc.dart';
+import 'package:sunhope_computer_software/blocs/topup/topup_bloc.dart';
 import 'package:sunhope_computer_software/constants/const_colors.dart';
 import 'package:sunhope_computer_software/constants/const_text_style.dart';
+import 'package:sunhope_computer_software/core/log/debug_log.dart';
 import 'package:sunhope_computer_software/core/show_price.dart';
 import 'package:sunhope_computer_software/data/purchase.dart';
 import 'package:sunhope_computer_software/screens/customer/choose_customer_screen.dart';
 import 'package:sunhope_computer_software/screens/employee/choose_employee_screen.dart';
 import 'package:sunhope_computer_software/screens/employee/widgets/employee_dropdown_widget.dart';
+import 'package:sunhope_computer_software/widgets/input_field.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
 import 'package:uuid/uuid.dart';
 import '../../core/checkout_service_handler/checkout_service_handler.dart';
@@ -26,7 +29,10 @@ class CheckOutProcessScreen extends StatefulWidget {
 }
 
 class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
+  final _topupAmount = TextEditingController();
+  final _cash = TextEditingController();
   final CreatePurchaseBloc _bloc = CreatePurchaseBloc();
+  final TopupBloc _topupBloc = TopupBloc();
   Customer? customer;
   Employee? employee;
   String? guestName;
@@ -46,6 +52,46 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
     return Column(
       children: [
         BlocProvider(
+          create: (_) => _topupBloc,
+          child: BlocListener<TopupBloc, TopupState>(
+            listener: (context, state) {
+              if (state is TopupFilling) {
+                StateWidgets.showLoading(context);
+              } else if (state is TopupFillSuccess) {
+                StateWidgets.hideLoading(context);
+                StateWidgets.showAlertMessage(
+                    context: context,
+                    title: "Success",
+                    message: "Top-Up Complete Successfully.",
+                    onPressedOK: () {
+                      StateWidgets.hideLoading(context);
+                      if (customer != null) {
+                        setState(() {
+                          customer!.balance =
+                              customer!.balance! + int.parse(_topupAmount.text);
+                          _topupAmount.clear();
+                        });
+                      }
+                    });
+              } else if (state is TopupFillError) {
+                StateWidgets.hideLoading(context);
+                StateWidgets.showAlertMessage(
+                    context: context,
+                    title: "Fail",
+                    message: "Top-Up can not be process.",
+                    onPressedOK: () {
+                      StateWidgets.hideLoading(context);
+                    });
+              }
+            },
+            child: BlocBuilder<TopupBloc, TopupState>(
+              builder: (context, state) {
+                return Container();
+              },
+            ),
+          ),
+        ),
+        BlocProvider(
           create: (_) => _bloc,
           child: BlocListener<CreatePurchaseBloc, PurchaseState>(
             listener: (context, state) {
@@ -53,7 +99,6 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                 StateWidgets.showLoading(context);
               } else if (state is PurchaseCreated) {
                 StateWidgets.hideLoading(context);
-
                 setState(() {
                   CheckoutServiceHandler.clear();
                 });
@@ -64,6 +109,16 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                     onPressedOK: () {
                       StateWidgets.hideLoading(context);
                       widget.close(true);
+                    });
+              } else if (state is PurchaseFail) {
+                StateWidgets.hideLoading(context);
+                StateWidgets.showAlertMessage(
+                    context: context,
+                    title: state.message.status ?? "",
+                    message: "Require ${state.message.message}MMK",
+                    onPressedOK: () {
+                      StateWidgets.hideLoading(context);
+                      // widget.close(true);
                     });
               } else if (state is PurchaseError) {
                 StateWidgets.hideLoading(context);
@@ -210,10 +265,10 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                       label: Text('Quantity',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text('Discount',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  // DataColumn(
+                  //     label: Text('Discount',
+                  //         style: TextStyle(
+                  //             fontSize: 18, fontWeight: FontWeight.bold))),
                   DataColumn(
                       label: Text('Price',
                           style: TextStyle(
@@ -283,14 +338,32 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                           ),
                         ],
                       )),
-                      DataCell(Text(showPrice(int.parse(
-                          '${CheckoutServiceHandler.services[i].discount}')))),
-                      DataCell(Text(showPrice(int.parse(
-                          '${CheckoutServiceHandler.services[i].price}')))),
+                      // DataCell(Text(showPrice(int.parse(
+                      //     '${CheckoutServiceHandler.services[i].discount}')))),
+
+                      // DataCell(Text(showPrice(int.parse(
+                      //     '${CheckoutServiceHandler.services[i].price}')))),
+
+                      DataCell(
+                        TextFormField(
+                          initialValue:
+                              '${CheckoutServiceHandler.services[i].price}',
+                          onChanged: (value) {
+                            setState(() {
+                              CheckoutServiceHandler.services[i].price =
+                                  int.parse(value);
+                            });
+                          },
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+
                       DataCell(SizedBox(
                         width: 100,
                         height: 50,
                         child: EmployeeDropdownWidget(
+                          employeeId:
+                              CheckoutServiceHandler.services[i].employeeId,
                           onChoose: (Employee? employee) {
                             if (employee != null) {
                               setState(() {
@@ -349,7 +422,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                       style: ConstTextStyles.blackF16W5,
                     )),
                     DataCell(Container()),
-                    DataCell(Container()),
+                    // DataCell(Container()),
                     DataCell(Text(
                       showPrice(getTotal(CheckoutServiceHandler.services)),
                       style: ConstTextStyles.blackF16W5,
@@ -357,6 +430,79 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                     DataCell(Container()),
                     DataCell(Container()),
                     DataCell(Container()),
+                  ]),
+                  DataRow(cells: [
+                    DataCell(customer == null
+                        ? const Text("")
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Customer Balance',
+                                style: ConstTextStyles.blackF14W5,
+                              ),
+                              Text(
+                                "${customer!.balance} MMK",
+                                style: ConstTextStyles.blackF14W5,
+                              )
+                            ],
+                          )),
+                    DataCell(const Text("")),
+                    // DataCell(Container()),
+                    DataCell(customer == null
+                        ? const Text("")
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                showPrice(
+                                    getTotal(CheckoutServiceHandler.services)),
+                                style: ConstTextStyles.blackF16W5,
+                              ),
+                              checkRequiredAmount(),
+                            ],
+                          )),
+                    DataCell(customer == null
+                        ? const Text("")
+                        : SizedBox(
+                            width: 150,
+                            height: 35,
+                            child: InputField(
+                              controller: _cash,
+                              inputType: TextInputType.number,
+                              label: "Cash Amount",
+                              onTyping: (_) {
+                                //
+                              },
+                            ),
+                          )),
+                    DataCell(customer == null
+                        ? const Text("")
+                        : SizedBox(
+                            width: 150,
+                            height: 35,
+                            child: InputField(
+                              controller: _topupAmount,
+                              inputType: TextInputType.number,
+                              label: "Top-Up Amount",
+                              onTyping: (_) {
+                                //
+                              },
+                            ),
+                          )),
+                    DataCell(customer == null
+                        ? const Text("")
+                        : ElevatedButton(
+                            onPressed: () {
+                              if (_topupAmount.text.isNotEmpty &&
+                                  customer != null) {
+                                _topupBloc.add(FillTopupEvent(
+                                    customerId: customer!.id!,
+                                    amount: int.parse(_topupAmount.text)));
+                              }
+                            },
+                            child: const Text("Top-Up"),
+                          )),
                   ]),
                 ],
               ),
@@ -384,13 +530,31 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                                 guestName != null ? const Uuid().v4() : null,
                             totalAmount:
                                 getTotal(CheckoutServiceHandler.services),
+                            cash: int.parse(_cash.text),
                             services: CheckoutServiceHandler.toJsonList())));
                   },
-                  child: const Icon(Icons.arrow_forward)),
+                  child: const Text("Save")),
             ],
           ),
         ),
       ],
     );
+  }
+
+  Widget checkRequiredAmount() {
+    if (customer == null) {
+      return const Text("");
+    } else {
+      if (getTotal(CheckoutServiceHandler.services) > customer!.balance!) {
+        int amt =
+            getTotal(CheckoutServiceHandler.services) - customer!.balance!;
+        return Text(
+          "$amt (Require)",
+          style: ConstTextStyles.blackF14W5,
+        );
+      } else {
+        return const Text("");
+      }
+    }
   }
 }

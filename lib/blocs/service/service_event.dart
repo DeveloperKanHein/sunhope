@@ -14,6 +14,11 @@ class GetServiceByCategoryEvent extends ServiceEvent {
   GetServiceByCategoryEvent({required this.id});
 }
 
+class SearchServiceEvent extends ServiceEvent {
+  final String name;
+  SearchServiceEvent({required this.name});
+}
+
 class CreateServiceEvent extends ServiceEvent {
   final Service service;
   CreateServiceEvent({required this.service});

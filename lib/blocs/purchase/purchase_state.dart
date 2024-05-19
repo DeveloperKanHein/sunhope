@@ -17,6 +17,11 @@ class PurchaseCreated extends PurchaseState {
   //
 }
 
+class PurchaseFail extends PurchaseState {
+  final ResMessage message;
+  PurchaseFail({required this.message});
+}
+
 class PurchaseError extends PurchaseState {
   //
 }
