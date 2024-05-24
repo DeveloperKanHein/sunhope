@@ -18,6 +18,7 @@ import '../../core/checkout_service_handler/checkout_service_handler.dart';
 import '../../data/customer.dart';
 import '../../data/employee.dart';
 import '../../data/service_req.dart';
+import 'default_finger_scan_widget.dart';
 import 'finger_scan_widget.dart';
 
 class CheckOutProcessScreen extends StatefulWidget {
@@ -36,6 +37,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
   Customer? customer;
   Employee? employee;
   String? guestName;
+  String? customerFingerId;
   // List<ServiceReq> CheckoutServiceHandler.services = [];
   int getTotal(List<ServiceReq> services) {
     int total = 0;
@@ -44,6 +46,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
         total += service.quantity! * (service.price! - service.discount!);
       }
     }
+    debugLog("The Total Amount is $total");
     return total;
   }
 
@@ -141,29 +144,15 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 15.0, right: 20),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              customer == null
-                  ? TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    // duration: const Duration(milliseconds: ConstValues.routeDuration),
-                                    child: const ChooseCustomerScreen()))
-                            .then((value) {
-                          setState(() {
-                            customer = value["customer"];
-                          });
-                        });
-                      },
-                      child: const Text("Choose Customer"))
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        InkWell(
-                          onTap: () {
+              Row(
+                children: [
+                  customer == null
+                      ? TextButton(
+                          onPressed: () {
                             Navigator.push(
                                     context,
                                     PageTransition(
@@ -176,77 +165,137 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                               });
                             });
                           },
-                          child: Row(
-                            children: [
-                              const Icon(Icons.person,
-                                  color: ConstColors.borderColor),
-                              Text(customer!.name ?? '',
-                                  style: ConstTextStyles.blackF14W4Op45),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Row(
+                          child: const Text("Choose Customer"))
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Icon(Icons.phone,
-                                color: ConstColors.borderColor),
-                            Text(customer!.phone!.replaceAll(",", "\n"),
-                                style: ConstTextStyles.blackF14W4Op45),
-                          ],
-                        ),
-                        const SizedBox(width: 20),
-                        Row(
-                          children: [
-                            const Icon(Icons.account_balance_wallet,
-                                color: ConstColors.borderColor),
-                            const SizedBox(width: 4),
-                            Text(
-                                showPrice(
-                                  customer!.balance ?? 0,
-                                ),
-                                style: ConstTextStyles.blackF14W4Op45),
-                          ],
-                        ),
-                        const SizedBox(width: 20),
-                      ],
-                    ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 30),
-                child: InkWell(
-                    onTap: () {
-                      showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (_) => FingerScanWidget(
-                                onSuccess: (name) {
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            // duration: const Duration(milliseconds: ConstValues.routeDuration),
+                                            child:
+                                                const ChooseCustomerScreen()))
+                                    .then((value) {
                                   setState(() {
-                                    guestName = name;
+                                    customer = value["customer"];
                                   });
-                                },
-                              ));
-                    },
-                    child: const Icon(
-                      Icons.fingerprint,
-                      size: 20,
-                    )),
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.person,
+                                      color: ConstColors.borderColor),
+                                  Text(customer!.name ?? '',
+                                      style: ConstTextStyles.blackF14W4Op45),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            Row(
+                              children: [
+                                const Icon(Icons.phone,
+                                    color: ConstColors.borderColor),
+                                Text(customer!.phone!.replaceAll(",", "\n"),
+                                    style: ConstTextStyles.blackF14W4Op45),
+                              ],
+                            ),
+                            const SizedBox(width: 20),
+                            Row(
+                              children: [
+                                const Icon(Icons.account_balance_wallet,
+                                    color: ConstColors.borderColor),
+                                const SizedBox(width: 4),
+                                Text(
+                                    showPrice(
+                                      customer!.balance ?? 0,
+                                    ),
+                                    style: ConstTextStyles.blackF14W4Op45),
+                              ],
+                            ),
+                            const SizedBox(width: 20),
+                          ],
+                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 150.0, right: 30),
+                    child: InkWell(
+                        onTap: () {
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => FingerScanWidget(
+                                    onSuccess: (name) {
+                                      setState(() {
+                                        guestName = name;
+                                      });
+                                    },
+                                  ));
+                        },
+                        child: const Row(
+                          children: [
+                            Text("Guest: "),
+                            Icon(
+                              Icons.fingerprint,
+                              size: 20,
+                            ),
+                          ],
+                        )),
+                  ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //             context,
+                  //             PageTransition(
+                  //                 type: PageTransitionType.rightToLeft,
+                  //                 child: const ChooseEmployeeScreen()))
+                  //         .then((value) {
+                  //       setState(() {
+                  //         employee = value["employee"];
+                  //       });
+                  //     });
+                  //   },
+                  //   child: employee == null
+                  //       ? const Text("Choose Employee")
+                  //       : Text(employee!.name ?? ""),
+                  // ),
+                ],
               ),
-              // TextButton(
-              //   onPressed: () {
-              //     Navigator.push(
-              //             context,
-              //             PageTransition(
-              //                 type: PageTransitionType.rightToLeft,
-              //                 child: const ChooseEmployeeScreen()))
-              //         .then((value) {
-              //       setState(() {
-              //         employee = value["employee"];
-              //       });
-              //     });
-              //   },
-              //   child: employee == null
-              //       ? const Text("Choose Employee")
-              //       : Text(employee!.name ?? ""),
-              // ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: SizedBox(
+                  width: 200,
+                  height: 30,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) => DefaultFingerScanWidget(
+                                  onSuccess: (isDone) {
+                                    if (isDone) {
+                                      setState(() {
+                                        customerFingerId = const Uuid().v4();
+                                      });
+                                    }
+                                  },
+                                ));
+                      },
+                      child: const Row(
+                        children: [
+                          Text(
+                            "Get Fingerprint",
+                          ),
+                          Icon(
+                            Icons.fingerprint,
+                            size: 20,
+                          ),
+                        ],
+                      )),
+                ),
+              ),
             ],
           ),
         ),
@@ -521,16 +570,20 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                   child: const Icon(Icons.arrow_back)),
               ElevatedButton(
                   onPressed: () {
+                    debugLog(getTotal(CheckoutServiceHandler.services));
+                    debugLog(_cash.text);
                     _bloc.add(CreatePurchaseEvent(
                         purchase: Purchase(
                             customerId: customer!.id,
                             customerName: customer!.name,
+                            customerFingerId: customerFingerId,
                             guestName: guestName,
                             fingerId:
                                 guestName != null ? const Uuid().v4() : null,
                             totalAmount:
                                 getTotal(CheckoutServiceHandler.services),
-                            cash: int.parse(_cash.text),
+                            cash: int.parse(
+                                _cash.text.isEmpty ? "0" : _cash.text),
                             services: CheckoutServiceHandler.toJsonList())));
                   },
                   child: const Text("Save")),

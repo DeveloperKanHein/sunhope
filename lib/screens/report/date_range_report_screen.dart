@@ -5,8 +5,11 @@ import 'package:sunhope_computer_software/blocs/report/report_bloc.dart';
 import 'package:sunhope_computer_software/constants/const_text_style.dart';
 import 'package:sunhope_computer_software/core/log/debug_log.dart';
 import 'package:sunhope_computer_software/core/show_price.dart';
+import 'package:sunhope_computer_software/screens/report/report_detail_screen.dart';
 
+import '../../core/next_screen.dart';
 import '../../widgets/state_widgets.dart';
+import 'daily_report_detail_screen.dart';
 import 'get_total.dart';
 
 class DateRangeReportScreen extends StatefulWidget {
@@ -127,7 +130,12 @@ class _DateRangeReportScreenState extends State<DateRangeReportScreen> {
                                       state.data[i].totalAmount ?? 0))),
                                   DataCell(InkWell(
                                     onTap: () {
-                                      //
+                                      nextStfScreen(
+                                          context: context,
+                                          screen: DailyDetailReportScreen(
+                                            data: "${state.data[i].id}",
+                                            type: "date",
+                                          ));
                                     },
                                     child: Text(
                                       "Detail",

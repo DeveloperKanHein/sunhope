@@ -46,56 +46,74 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           : Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 15.0, right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  padding:
+                      const EdgeInsets.only(top: 15.0, right: 20, left: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Icon(Icons.person,
-                              color: ConstColors.borderColor),
-                          Text(detail!.customerId!.name ?? "",
+                          Row(
+                            children: [
+                              const Icon(Icons.person,
+                                  color: ConstColors.borderColor),
+                              Text(detail!.customerId!.name ?? "",
+                                  style: ConstTextStyles.blackF14W4Op45),
+                            ],
+                          ),
+                          const SizedBox(width: 20),
+
+                          Row(
+                            children: [
+                              const Icon(Icons.phone,
+                                  color: ConstColors.borderColor),
+                              Text(detail!.customerId!.phone ?? "",
+                                  style: ConstTextStyles.blackF14W4Op45),
+                            ],
+                          ),
+                          const SizedBox(width: 20),
+                          Row(
+                            children: [
+                              const Icon(Icons.account_balance_wallet,
+                                  color: ConstColors.borderColor),
+                              Text(showPrice(detail!.customerId!.balance ?? 0),
+                                  style: ConstTextStyles.blackF14W4Op45),
+                            ],
+                          ),
+                          const SizedBox(width: 20),
+                          Text("Guest: ${detail!.guestName ?? "-"}",
                               style: ConstTextStyles.blackF14W4Op45),
+                          const SizedBox(width: 20),
+                          Row(
+                            children: [
+                              const Icon(Icons.fingerprint,
+                                  color: ConstColors.borderColor),
+                              const SizedBox(width: 4),
+                              Text(detail!.fingerId ?? "",
+                                  style: ConstTextStyles.blackF14W4Op45),
+                            ],
+                          ),
+                          // const SizedBox(width: 40),
+                          // Row(
+                          //   children: [
+                          //     Text("Employee: ${detail!.employeeName}",
+                          //         style: ConstTextStyles.blackF14W4Op45),
+                          //   ],
+                          // ),
                         ],
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
-                          const Icon(Icons.phone,
-                              color: ConstColors.borderColor),
-                          Text(detail!.customerId!.phone ?? "",
+                          Text("Fingerprint ID",
+                              style: ConstTextStyles.blackF14W4Op45),
+                          const SizedBox(width: 10),
+                          Text(detail!.customerFingerId ?? "",
                               style: ConstTextStyles.blackF14W4Op45),
                         ],
                       ),
-                      const SizedBox(width: 20),
-                      Row(
-                        children: [
-                          const Icon(Icons.account_balance_wallet,
-                              color: ConstColors.borderColor),
-                          Text(showPrice(detail!.customerId!.balance ?? 0),
-                              style: ConstTextStyles.blackF14W4Op45),
-                        ],
-                      ),
-                      const SizedBox(width: 20),
-                      Text("Guest: ${detail!.guestName ?? "-"}",
-                          style: ConstTextStyles.blackF14W4Op45),
-                      const SizedBox(width: 20),
-                      Row(
-                        children: [
-                          const Icon(Icons.fingerprint,
-                              color: ConstColors.borderColor),
-                          const SizedBox(width: 4),
-                          Text(detail!.fingerId ?? "",
-                              style: ConstTextStyles.blackF14W4Op45),
-                        ],
-                      ),
-                      // const SizedBox(width: 40),
-                      // Row(
-                      //   children: [
-                      //     Text("Employee: ${detail!.employeeName}",
-                      //         style: ConstTextStyles.blackF14W4Op45),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ),

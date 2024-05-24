@@ -9,7 +9,7 @@ Future<void> appConfig() async {
   await SharedPreferencesSingleton.init();
   String basedURL = ConstApiRoutes.basedURL;
   final DioConfig dioConfig =
-      DioConfig(baseUrl: basedURL, token: AppStorage.getToken);
+      DioConfig(baseUrl: basedURL, token: AppStorage.getToken ?? "");
   ApiRepoSingleton.dio = dioConfig.init();
   ApiRepoSingleton.updateDio();
 }

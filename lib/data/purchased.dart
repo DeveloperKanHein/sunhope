@@ -12,6 +12,7 @@ class Purchased {
   String? employeeName;
   Customer? customerId;
   String? customerName;
+  String? customerFingerId;
   String? guestName;
   String? fingerId;
   int? totalAmount;
@@ -23,6 +24,7 @@ class Purchased {
       this.employeeName,
       this.customerId,
       this.customerName,
+      this.customerFingerId,
       this.totalAmount,
       this.balance,
       this.guestName,

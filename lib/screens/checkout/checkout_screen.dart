@@ -8,8 +8,6 @@ import 'package:sunhope_computer_software/screens/checkout/finger_scan_widget.da
 
 import '../../blocs/service/service_bloc.dart';
 import '../../core/checkout_service_handler/checkout_service_handler.dart';
-import '../../data/service.dart';
-import '../../data/service_req.dart';
 import '../../widgets/input_field.dart';
 import '../../widgets/state_widgets.dart';
 

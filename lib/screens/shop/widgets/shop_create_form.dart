@@ -3,8 +3,11 @@ import 'package:sunhope_computer_software/constants/const_text_style.dart';
 import 'package:sunhope_computer_software/widgets/input_field.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
 
+import '../../../data/shop.dart';
+
 class ShopCreateForm extends StatelessWidget {
-  ShopCreateForm({super.key});
+  final Function(Shop) onCreate;
+  ShopCreateForm({super.key, required this.onCreate});
   final name = TextEditingController();
   final username = TextEditingController();
   final password = TextEditingController();
@@ -82,19 +85,26 @@ class ShopCreateForm extends StatelessWidget {
         const SizedBox(width: 15),
         InkWell(
           onTap: () {
-            StateWidgets.showLoading(context);
-            Future.delayed(const Duration(seconds: 3)).then((value) {
-              StateWidgets.hideLoading(context);
+            Shop shop = Shop();
 
-              StateWidgets.showAlertMessage(
-                  title: "Successful",
-                  message: "New shop is created successfully.",
-                  context: context,
-                  onPressedOK: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  });
-            });
+            if (password.text.isNotEmpty) {
+              if (password.text == confirm.text) {
+                shop.name = name.text;
+                shop.username = username.text;
+                shop.address = address.text;
+                shop.password = password.text;
+                Navigator.pop(context);
+                onCreate(shop);
+              } else {
+                StateWidgets.showAlertMessage(
+                    context: context,
+                    title: "Password doesn't Match!",
+                    message: "Please type the same word in password fields.",
+                    onPressedOK: () {
+                      Navigator.pop(context);
+                    });
+              }
+            }
           },
           child: const Text(
             "Create",

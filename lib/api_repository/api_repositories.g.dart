@@ -19,28 +19,115 @@ class _ApiRepositories implements ApiRepositories {
   String? baseUrl;
 
   @override
-  Future<dynamic> getAll() async {
+  Future<LoginRes> login(LoginReq loginReq) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(loginReq.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<LoginRes>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'login',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = LoginRes.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<List<Shop>> shops() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Shop>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          'get-all',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        ))));
-    final value = _result.data;
+            .compose(
+              _dio.options,
+              'dashboard/shops',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) => Shop.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<LoginRes> createShop(Shop shop) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(shop.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<LoginRes>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'dashboard/shop',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = LoginRes.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<LoginRes> updateShop(Shop shop) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(shop.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<LoginRes>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'dashboard/shop',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = LoginRes.fromJson(_result.data!);
     return value;
   }
 
@@ -57,7 +144,7 @@ class _ApiRepositories implements ApiRepositories {
     )
         .compose(
           _dio.options,
-          'home',
+          'dashboard/home',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -84,7 +171,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'categories',
+              'dashboard/categories',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -114,7 +201,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'category',
+              'dashboard/category',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -142,7 +229,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'category',
+              'dashboard/category',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -169,7 +256,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'services',
+              'dashboard/services',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -198,7 +285,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'services/${id}',
+              'dashboard/services/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -227,7 +314,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'search-services',
+              'dashboard/search-services',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -257,7 +344,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'service',
+              'dashboard/service',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -285,7 +372,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'service',
+              'dashboard/service',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -312,7 +399,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'customers',
+              'dashboard/customers',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -341,7 +428,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'search-customers',
+              'dashboard/search-customers',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -371,7 +458,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'customer',
+              'dashboard/customer',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -399,7 +486,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'customer',
+              'dashboard/customer',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -427,7 +514,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'topup',
+              'dashboard/topup',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -454,7 +541,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'employees',
+              'dashboard/employees',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -484,7 +571,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'employee',
+              'dashboard/employee',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -512,7 +599,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'employee',
+              'dashboard/employee',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -540,7 +627,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'purchase',
+              'dashboard/purchase',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -567,7 +654,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'report',
+              'dashboard/report',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -596,7 +683,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'yearly',
+              'dashboard/yearly',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -625,7 +712,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'monthly',
+              'dashboard/monthly',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -660,7 +747,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'daily',
+              'dashboard/daily',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -695,7 +782,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'date-range-report',
+              'dashboard/date-range-report',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -724,7 +811,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'report-detail',
+              'dashboard/report-detail',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -753,7 +840,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'purchase-by-customer/${id}',
+              'dashboard/purchase-by-customer/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -782,7 +869,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'purchase-by-employee/${id}',
+              'dashboard/purchase-by-employee/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -811,7 +898,7 @@ class _ApiRepositories implements ApiRepositories {
     )
             .compose(
               _dio.options,
-              'purchase-by-id/${id}',
+              'dashboard/purchase-by-id/${id}',
               queryParameters: queryParameters,
               data: _data,
             )

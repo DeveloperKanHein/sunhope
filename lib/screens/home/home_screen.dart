@@ -55,10 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
               //   backgroundColor: ConstColors.appColor.withOpacity(0.25),
               // ),
               title: Padding(
-                padding: const EdgeInsets.only(bottom: 20.0, left: 30),
+                padding: const EdgeInsets.only(bottom: 20.0, top: 20, left: 40),
                 child: Image.asset(
                   'assets/logo.png',
-                  width: 80,
+                  width: 100,
                 ),
               ),
               footer: Padding(

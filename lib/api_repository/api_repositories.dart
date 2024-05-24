@@ -8,10 +8,13 @@ import '../data/category.dart';
 import '../data/customer.dart';
 import '../data/daily.dart';
 import '../data/employee.dart';
+import '../data/login_req.dart';
+import '../data/login_res.dart';
 import '../data/monthly.dart';
 import '../data/purchase_detail.dart';
 import '../data/purchased.dart';
 import '../data/service.dart';
+import '../data/shop.dart';
 import '../data/yearly.dart';
 
 part 'api_repositories.g.dart';
@@ -20,9 +23,19 @@ part 'api_repositories.g.dart';
 abstract class ApiRepositories {
   factory ApiRepositories(Dio dio, {String? baseUrl}) = _ApiRepositories;
 
-  @GET(ConstApiRoutes.getAll)
-  Future<dynamic> getAll();
-  @GET("home")
+  @POST(ConstApiRoutes.login)
+  Future<LoginRes> login(@Body() LoginReq loginReq);
+
+  @GET(ConstApiRoutes.shops)
+  Future<List<Shop>> shops();
+
+  @POST(ConstApiRoutes.shop)
+  Future<LoginRes> createShop(@Body() Shop shop);
+
+  @PUT(ConstApiRoutes.shop)
+  Future<LoginRes> updateShop(@Body() Shop shop);
+
+  @GET(ConstApiRoutes.home)
   Future<dynamic> home();
 
   @GET(ConstApiRoutes.categories)

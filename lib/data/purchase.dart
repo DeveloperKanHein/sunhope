@@ -12,6 +12,7 @@ class Purchase {
   String? employeeName;
   String? customerId;
   String? customerName;
+  String? customerFingerId;
   String? guestName;
   String? fingerId;
   int? totalAmount;
@@ -23,11 +24,12 @@ class Purchase {
       this.employeeName,
       this.customerId,
       this.customerName,
+      this.customerFingerId,
       this.totalAmount,
       this.guestName,
       this.fingerId,
       this.services,
-      this.cash,
+      this.cash = 0,
       this.createdAt});
   factory Purchase.fromJson(Map<String, dynamic> json) =>
       _$PurchaseFromJson(json);

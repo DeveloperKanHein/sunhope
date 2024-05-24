@@ -10,29 +10,31 @@ class ConstApiRoutes {
   // auth
   static const String login = "login";
 
-  static const String getAll = "get-all";
-
-  static const String category = "category";
-  static const String categories = "categories";
-  static const String service = "service";
-  static const String services = "services";
-  static const String searchServices = "search-services";
-  static const String promotion = "promotion";
-  static const String promotions = "promotions";
-  static const String customer = "customer";
-  static const String customers = "customers";
-  static const String searchCustomers = "search-customers";
-  static const String topup = "topup";
-  static const String employee = "employee";
-  static const String employees = "employees";
-  static const String purchase = "purchase";
-  static const String report = "report";
-  static const String yearly = "yearly";
-  static const String monthly = "monthly";
-  static const String daily = "daily";
-  static const String dateRangeReport = "date-range-report";
-  static const String reportDetail = "report-detail";
-  static const String purchaseById = "purchase-by-id";
-  static const String purchaseByCustomerId = "purchase-by-customer";
-  static const String purchaseByEmployeeId = "purchase-by-employee";
+  static const String getAll = "dashboard/get-all";
+  static const String home = "dashboard/home";
+  static const String shops = "dashboard/shops";
+  static const String shop = "dashboard/shop";
+  static const String category = "dashboard/category";
+  static const String categories = "dashboard/categories";
+  static const String service = "dashboard/service";
+  static const String services = "dashboard/services";
+  static const String searchServices = "dashboard/search-services";
+  static const String promotion = "dashboard/promotion";
+  static const String promotions = "dashboard/promotions";
+  static const String customer = "dashboard/customer";
+  static const String customers = "dashboard/customers";
+  static const String searchCustomers = "dashboard/search-customers";
+  static const String topup = "dashboard/topup";
+  static const String employee = "dashboard/employee";
+  static const String employees = "dashboard/employees";
+  static const String purchase = "dashboard/purchase";
+  static const String report = "dashboard/report";
+  static const String yearly = "dashboard/yearly";
+  static const String monthly = "dashboard/monthly";
+  static const String daily = "dashboard/daily";
+  static const String dateRangeReport = "dashboard/date-range-report";
+  static const String reportDetail = "dashboard/report-detail";
+  static const String purchaseById = "dashboard/purchase-by-id";
+  static const String purchaseByCustomerId = "dashboard/purchase-by-customer";
+  static const String purchaseByEmployeeId = "dashboard/purchase-by-employee";
 }

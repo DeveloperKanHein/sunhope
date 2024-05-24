@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:sunhope_computer_software/constants/const_text_style.dart';
+import 'package:sunhope_computer_software/core/log/debug_log.dart';
 import 'package:sunhope_computer_software/widgets/input_field.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
 
+import '../../../data/shop.dart';
+
 class ShopEditForm extends StatelessWidget {
-  final String name;
-  final String username;
-  final String address;
+  final Shop shop;
+  final Function(Shop) onUpdate;
   final nameEditor = TextEditingController();
   final usernameEditor = TextEditingController();
   final passwordEditor = TextEditingController();
   final confirmEditor = TextEditingController();
   final addressEditor = TextEditingController();
-  ShopEditForm(
-      {super.key,
-      required this.name,
-      required this.username,
-      required this.address}) {
-    nameEditor.text = name;
-    usernameEditor.text = username;
-    addressEditor.text = address;
+  ShopEditForm({super.key, required this.shop, required this.onUpdate}) {
+    nameEditor.text = shop.name ?? "";
+    usernameEditor.text = shop.username ?? "";
+    addressEditor.text = shop.address ?? "";
   }
 
   @override
@@ -95,19 +93,26 @@ class ShopEditForm extends StatelessWidget {
         const SizedBox(width: 15),
         InkWell(
           onTap: () {
-            StateWidgets.showLoading(context);
-            Future.delayed(const Duration(seconds: 3)).then((value) {
-              StateWidgets.hideLoading(context);
-
-              StateWidgets.showAlertMessage(
-                  title: "Successful",
-                  message: "$name is updated successfully.",
-                  context: context,
-                  onPressedOK: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  });
-            });
+            shop.name = nameEditor.text;
+            shop.username = usernameEditor.text;
+            shop.address = addressEditor.text;
+            if (passwordEditor.text.isNotEmpty) {
+              if (passwordEditor.text == confirmEditor.text) {
+                shop.password = passwordEditor.text;
+              } else {
+                StateWidgets.showAlertMessage(
+                    context: context,
+                    title: "Password doesn't Match!",
+                    message: "Please type the same word in password fields.",
+                    onPressedOK: () {
+                      Navigator.pop(context);
+                    });
+              }
+            } else {
+              shop.password = null;
+            }
+            Navigator.pop(context);
+            onUpdate(shop);
           },
           child: const Text(
             "Update",

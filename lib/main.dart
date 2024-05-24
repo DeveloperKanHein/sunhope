@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sunhope_computer_software/constants/languages.dart';
+import 'package:sunhope_computer_software/core/storage/app_storage.dart';
 import 'package:sunhope_computer_software/screens/bluetooth_screen/bluetooth_connection_screen.dart';
 import 'package:sunhope_computer_software/screens/bluetooth_screen/bluetooth_device_screen.dart';
 import 'package:sunhope_computer_software/screens/bluetooth_screen/port_setup_screen.dart';
 import 'package:sunhope_computer_software/screens/home/home_screen.dart';
+import 'package:sunhope_computer_software/screens/login/login_screen.dart';
 import 'config/app_config.dart';
 import 'package:get/get.dart';
 
@@ -31,8 +33,9 @@ class MyApp extends StatelessWidget {
       ),
       translations: Languages(), // Your translations
       locale: const Locale('en', 'US'),
-      home: const HomeScreen(),
-      // home: PortSetupScreen(),
+      home: AppStorage.getToken == null
+          ? const LoginScreen()
+          : const HomeScreen(),
     );
   }
 }

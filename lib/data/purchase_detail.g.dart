@@ -14,6 +14,7 @@ PurchaseDetail _$PurchaseDetailFromJson(Map<String, dynamic> json) =>
           ? null
           : Customer.fromJson(json['customerId'] as Map<String, dynamic>),
       customerName: json['customerName'] as String?,
+      customerFingerId: json['customerFingerId'] as String?,
       totalAmount: json['totalAmount'] as int?,
       guestName: json['guestName'] as String?,
       fingerId: json['fingerId'] as String?,
@@ -29,6 +30,7 @@ Map<String, dynamic> _$PurchaseDetailToJson(PurchaseDetail instance) =>
       'employeeName': instance.employeeName,
       'customerId': instance.customerId,
       'customerName': instance.customerName,
+      'customerFingerId': instance.customerFingerId,
       'guestName': instance.guestName,
       'fingerId': instance.fingerId,
       'totalAmount': instance.totalAmount,

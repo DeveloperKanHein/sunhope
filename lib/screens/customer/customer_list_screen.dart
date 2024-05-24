@@ -99,6 +99,16 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                         Navigator.pop(context);
                         Navigator.pop(context);
                       });
+                } else if (state is CustomerAlreadyExist) {
+                  StateWidgets.hideLoading(context);
+                  StateWidgets.showAlertMessage(
+                      title: "Fail",
+                      message: "Customer already exist!",
+                      context: context,
+                      onPressedOK: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      });
                 }
               },
               child: BlocBuilder<CreateCustomerBloc, CustomerState>(

@@ -40,6 +40,10 @@ class CustomerUpdated extends CustomerState {
   //
 }
 
+class CustomerAlreadyExist extends CustomerState {
+  //
+}
+
 class CustomerError extends CustomerState {
   //
 }

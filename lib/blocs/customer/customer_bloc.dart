@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sunhope_computer_software/api_repository/api_repo_singleton.dart';
+import 'package:sunhope_computer_software/constants/const_api_routes.dart';
 
 import '../../data/customer.dart';
 
@@ -48,7 +49,11 @@ class CreateCustomerBloc extends Bloc<CustomerEvent, CustomerState> {
         emit(CustomerCreating());
         final res =
             await ApiRepoSingleton.instance.createCustomer(event.customer);
-        emit(CustomerCreated());
+        if (res.status == ConstApiRoutes.fail) {
+          emit(CustomerAlreadyExist());
+        } else {
+          emit(CustomerCreated());
+        }
       } catch (e) {
         emit(CustomerError());
       }

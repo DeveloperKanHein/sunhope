@@ -15,5 +15,6 @@ class CreateShopEvent extends ShopEvent {
 }
 
 class UpdateShopEvent extends ShopEvent {
-  //
+  final Shop shop;
+  UpdateShopEvent({required this.shop});
 }

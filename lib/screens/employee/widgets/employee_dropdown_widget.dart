@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sunhope_computer_software/core/log/debug_log.dart';
 
 import '../../../blocs/employee/employee_bloc.dart';
 import '../../../constants/const_colors.dart';
@@ -49,13 +50,16 @@ class _EmployeeDropdownWidgetState extends State<EmployeeDropdownWidget> {
                 widget.onChoose(state.employees[0]);
                 setState(() {
                   employeeId = state.employees[0].id;
+                  employee = state.employees[0];
                 });
               } else {
-                for (Employee employee in state.employees) {
-                  if (widget.employeeId == employee.id) {
-                    widget.onChoose(employee);
+                debugLog("NOT NULL");
+                for (Employee empl in state.employees) {
+                  if (widget.employeeId == empl.id) {
+                    widget.onChoose(empl);
                     setState(() {
-                      employeeId = employee.id;
+                      employeeId = empl.id;
+                      employee = empl;
                     });
                   }
                 }
