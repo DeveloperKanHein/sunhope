@@ -137,6 +137,16 @@ class _MonthlyReportScreenState extends State<MonthlyReportScreen> {
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
                               DataColumn(
+                                  label: Text('Cash',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('Kpay',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
                                   label: Text('Action',
                                       style: TextStyle(
                                           fontSize: 18,
@@ -153,6 +163,10 @@ class _MonthlyReportScreenState extends State<MonthlyReportScreen> {
                                   DataCell(Text(showPrice(
                                       state.monthlyReports[i].totalAmount ??
                                           0))),
+                                  DataCell(Text(showPrice(
+                                      state.monthlyReports[i].cash ?? 0))),
+                                  DataCell(Text(showPrice(
+                                      state.monthlyReports[i].kpay ?? 0))),
                                   DataCell(InkWell(
                                     onTap: () {
                                       nextStfScreen(
@@ -172,18 +186,18 @@ class _MonthlyReportScreenState extends State<MonthlyReportScreen> {
                                     ),
                                   )),
                                 ]),
-                              DataRow(cells: [
-                                const DataCell(Text(
-                                  'Total',
-                                  style: ConstTextStyles.blackF16W5,
-                                )),
-                                DataCell(Text(
-                                  showPrice(getMonthlyTotalAmount(
-                                      state.monthlyReports)),
-                                  style: ConstTextStyles.blackF16W5,
-                                )),
-                                DataCell(Container()),
-                              ]),
+                              // DataRow(cells: [
+                              //   const DataCell(Text(
+                              //     'Total',
+                              //     style: ConstTextStyles.blackF16W5,
+                              //   )),
+                              //   DataCell(Text(
+                              //     showPrice(getMonthlyTotalAmount(
+                              //         state.monthlyReports)),
+                              //     style: ConstTextStyles.blackF16W5,
+                              //   )),
+                              //   DataCell(Container()),
+                              // ]),
                             ],
                           ),
                         ],

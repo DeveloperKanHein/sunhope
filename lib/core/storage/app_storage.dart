@@ -11,4 +11,5 @@ class AppStorage {
       await instance.setString(_token, token);
 
   static String? get getToken => instance.getString(_token);
+  static Future<bool> get clear async => await instance.clear();
 }

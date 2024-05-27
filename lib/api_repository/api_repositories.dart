@@ -80,6 +80,9 @@ abstract class ApiRepositories {
   @GET(ConstApiRoutes.employees)
   Future<List<Employee>> employees();
 
+  @GET(ConstApiRoutes.searchEmployee)
+  Future<List<Employee>> searchEmployee(@Query("name") String name);
+
   // @GET(ConstApiRoutes.se)
   // Future<List<Customer>> searchCustomers(@Query("name") String name);
 

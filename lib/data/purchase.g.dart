@@ -19,6 +19,7 @@ Purchase _$PurchaseFromJson(Map<String, dynamic> json) => Purchase(
           ?.map((e) => e as Map<String, dynamic>)
           .toList(),
       cash: json['cash'] as int? ?? 0,
+      kpay: json['kpay'] as int? ?? 0,
       createdAt: json['createdAt'] as String?,
     )..id = json['_id'] as String?;
 
@@ -34,5 +35,6 @@ Map<String, dynamic> _$PurchaseToJson(Purchase instance) => <String, dynamic>{
       'totalAmount': instance.totalAmount,
       'services': instance.services,
       'cash': instance.cash,
+      'kpay': instance.kpay,
       'createdAt': instance.createdAt,
     };

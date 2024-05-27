@@ -11,6 +11,7 @@ import 'package:sunhope_computer_software/data/purchase.dart';
 import 'package:sunhope_computer_software/screens/customer/choose_customer_screen.dart';
 import 'package:sunhope_computer_software/screens/employee/choose_employee_screen.dart';
 import 'package:sunhope_computer_software/screens/employee/widgets/employee_dropdown_widget.dart';
+import 'package:sunhope_computer_software/screens/employee/widgets/search_employee_widget.dart';
 import 'package:sunhope_computer_software/widgets/input_field.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
 import 'package:uuid/uuid.dart';
@@ -32,6 +33,7 @@ class CheckOutProcessScreen extends StatefulWidget {
 class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
   final _topupAmount = TextEditingController();
   final _cash = TextEditingController();
+  final _kpay = TextEditingController();
   final CreatePurchaseBloc _bloc = CreatePurchaseBloc();
   final TopupBloc _topupBloc = TopupBloc();
   Customer? customer;
@@ -387,6 +389,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                           ),
                         ],
                       )),
+
                       // DataCell(Text(showPrice(int.parse(
                       //     '${CheckoutServiceHandler.services[i].discount}')))),
 
@@ -395,8 +398,8 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
 
                       DataCell(
                         TextFormField(
-                          initialValue:
-                              '${CheckoutServiceHandler.services[i].price}',
+                          initialValue: CheckoutServiceHandler.services[i].price
+                              .toString(),
                           onChanged: (value) {
                             setState(() {
                               CheckoutServiceHandler.services[i].price =
@@ -407,29 +410,55 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                         ),
                       ),
 
-                      DataCell(SizedBox(
-                        width: 100,
-                        height: 50,
-                        child: EmployeeDropdownWidget(
-                          employeeId:
-                              CheckoutServiceHandler.services[i].employeeId,
-                          onChoose: (Employee? employee) {
-                            if (employee != null) {
-                              setState(() {
-                                CheckoutServiceHandler.services[i].employeeId =
-                                    employee.id;
-                                CheckoutServiceHandler
-                                    .services[i].employeeName = employee.name;
+                      DataCell(
+                        InkWell(
+                            onTap: () {
+                              showDialog(
+                                      context: context,
+                                      builder: (_) =>
+                                          const SearchEmployeeWidget())
+                                  .then((data) {
+                                if (data != null) {
+                                  var emp = data['employee'];
+                                  setState(() {
+                                    CheckoutServiceHandler
+                                        .services[i].employeeId = emp.id;
+                                    CheckoutServiceHandler
+                                        .services[i].employeeName = emp.name;
+                                  });
+                                }
                               });
-                            }
-                          },
-                        ),
-                      )),
+                            },
+                            child: Text(CheckoutServiceHandler
+                                    .services[i].employeeName ??
+                                "Choose Service Girl")),
+                      ),
+                      // DataCell(SizedBox(
+                      //   width: 100,
+                      //   height: 50,
+                      //   child: EmployeeDropdownWidget(
+                      //     employeeId:
+                      //         CheckoutServiceHandler.services[i].employeeId,
+                      //     onChoose: (Employee? employee) {
+                      //       if (employee != null) {
+                      //         setState(() {
+                      //           CheckoutServiceHandler.services[i].employeeId =
+                      //               employee.id;
+                      //           CheckoutServiceHandler
+                      //               .services[i].employeeName = employee.name;
+                      //         });
+                      //       }
+                      //     },
+                      //   ),
+                      // )),
                       DataCell(InkWell(
                         onTap: () {
                           setState(() {
                             CheckoutServiceHandler.services[i].isFoc =
                                 !CheckoutServiceHandler.services[i].isFoc!;
+                          });
+                          setState(() {
+                            //
                           });
                         },
                         child: Icon(CheckoutServiceHandler.services[i].isFoc!
@@ -496,7 +525,6 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                               )
                             ],
                           )),
-                    DataCell(const Text("")),
                     // DataCell(Container()),
                     DataCell(customer == null
                         ? const Text("")
@@ -506,7 +534,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                               Text(
                                 showPrice(
                                     getTotal(CheckoutServiceHandler.services)),
-                                style: ConstTextStyles.blackF16W5,
+                                style: ConstTextStyles.blackF14W5,
                               ),
                               checkRequiredAmount(),
                             ],
@@ -520,6 +548,20 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                               controller: _cash,
                               inputType: TextInputType.number,
                               label: "Cash Amount",
+                              onTyping: (_) {
+                                //
+                              },
+                            ),
+                          )),
+                    DataCell(customer == null
+                        ? const Text("")
+                        : SizedBox(
+                            width: 150,
+                            height: 35,
+                            child: InputField(
+                              controller: _kpay,
+                              inputType: TextInputType.number,
+                              label: "Kpay Amount",
                               onTyping: (_) {
                                 //
                               },
@@ -584,6 +626,8 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                                 getTotal(CheckoutServiceHandler.services),
                             cash: int.parse(
                                 _cash.text.isEmpty ? "0" : _cash.text),
+                            kpay: int.parse(
+                                _kpay.text.isEmpty ? "0" : _kpay.text),
                             services: CheckoutServiceHandler.toJsonList())));
                   },
                   child: const Text("Save")),
@@ -603,7 +647,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
             getTotal(CheckoutServiceHandler.services) - customer!.balance!;
         return Text(
           "$amt (Require)",
-          style: ConstTextStyles.blackF14W5,
+          style: ConstTextStyles.blackF12W5,
         );
       } else {
         return const Text("");

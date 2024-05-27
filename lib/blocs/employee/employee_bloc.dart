@@ -7,20 +7,36 @@ import '../../data/employee.dart';
 part 'employee_event.dart';
 part 'employee_state.dart';
 
-class GetEmployeeBloc extends Bloc<GetEmployeeEvent, EmployeeState> {
+class GetEmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
   GetEmployeeBloc() : super(EmployeeInitializing()) {
-    on<GetEmployeeEvent>((event, emit) async {
-      try {
-        emit(EmployeeLoading());
-        List<Employee> employees = await ApiRepoSingleton.instance.employees();
+    on<EmployeeEvent>((event, emit) async {
+      if (event is GetEmployeeEvent) {
+        try {
+          emit(EmployeeLoading());
+          List<Employee> employees =
+              await ApiRepoSingleton.instance.employees();
 
-        if (employees.isNotEmpty) {
-          emit(EmployeeLoaded(employees: employees));
-        } else {
-          emit(EmployeeEmpty());
+          if (employees.isNotEmpty) {
+            emit(EmployeeLoaded(employees: employees));
+          } else {
+            emit(EmployeeEmpty());
+          }
+        } catch (e) {
+          emit(EmployeeError());
         }
-      } catch (e) {
-        emit(EmployeeError());
+      } else if (event is SearchEmployeeEvent) {
+        try {
+          emit(EmployeeLoading());
+          List<Employee> employees =
+              await ApiRepoSingleton.instance.searchEmployee(event.name);
+          if (employees.isNotEmpty) {
+            emit(EmployeeLoaded(employees: employees));
+          } else {
+            emit(EmployeeEmpty());
+          }
+        } catch (e) {
+          emit(EmployeeError());
+        }
       }
     });
   }

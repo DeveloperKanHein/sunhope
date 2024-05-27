@@ -7,6 +7,9 @@ part of 'purchased.dart';
 // **************************************************************************
 
 Purchased _$PurchasedFromJson(Map<String, dynamic> json) => Purchased(
+      shop: json['shop'] == null
+          ? null
+          : Shop.fromJson(json['shop'] as Map<String, dynamic>),
       employeeId: json['employeeId'] as String?,
       employeeName: json['employeeName'] as String?,
       customerId: json['customerId'] == null
@@ -15,6 +18,8 @@ Purchased _$PurchasedFromJson(Map<String, dynamic> json) => Purchased(
       customerName: json['customerName'] as String?,
       customerFingerId: json['customerFingerId'] as String?,
       totalAmount: json['totalAmount'] as int?,
+      cash: json['cash'] as int?,
+      kpay: json['kpay'] as int?,
       balance: json['balance'] as int?,
       guestName: json['guestName'] as String?,
       fingerId: json['fingerId'] as String?,
@@ -26,6 +31,7 @@ Purchased _$PurchasedFromJson(Map<String, dynamic> json) => Purchased(
 
 Map<String, dynamic> _$PurchasedToJson(Purchased instance) => <String, dynamic>{
       '_id': instance.id,
+      'shop': instance.shop,
       'employeeId': instance.employeeId,
       'employeeName': instance.employeeName,
       'customerId': instance.customerId,
@@ -34,6 +40,8 @@ Map<String, dynamic> _$PurchasedToJson(Purchased instance) => <String, dynamic>{
       'guestName': instance.guestName,
       'fingerId': instance.fingerId,
       'totalAmount': instance.totalAmount,
+      'cash': instance.cash,
+      'kpay': instance.kpay,
       'balance': instance.balance,
       'services': instance.services,
       'createdAt': instance.createdAt,

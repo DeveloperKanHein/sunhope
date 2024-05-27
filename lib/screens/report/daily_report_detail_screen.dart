@@ -75,12 +75,27 @@ class _DailyDetailReportScreenState extends State<DailyDetailReportScreen> {
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
                               DataColumn(
+                                  label: Text('Shop',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
                                   label: Text('Customer Name',
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
                               DataColumn(
                                   label: Text('Amount',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('Cash',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('Kpay',
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
@@ -100,10 +115,17 @@ class _DailyDetailReportScreenState extends State<DailyDetailReportScreen> {
                                 DataRow(cells: [
                                   DataCell(Text(
                                       state.data[i].createdAt!.split("T")[0])),
+                                  DataCell(Text(state.data[i].shop == null
+                                      ? ""
+                                      : state.data[i].shop!.name!)),
                                   DataCell(
                                       Text("${state.data[i].customerName}")),
                                   DataCell(Text(showPrice(
                                       state.data[i].totalAmount ?? 0))),
+                                  DataCell(
+                                      Text(showPrice(state.data[i].cash ?? 0))),
+                                  DataCell(
+                                      Text(showPrice(state.data[i].kpay ?? 0))),
                                   DataCell(Text(
                                       showPrice(state.data[i].balance ?? 0))),
                                   DataCell(InkWell(
@@ -119,19 +141,20 @@ class _DailyDetailReportScreenState extends State<DailyDetailReportScreen> {
                                     ),
                                   )),
                                 ]),
-                              DataRow(cells: [
-                                DataCell(Container()),
-                                const DataCell(Text(
-                                  'Total',
-                                  style: ConstTextStyles.blackF16W5,
-                                )),
-                                DataCell(Text(
-                                  showPrice(getPurchaseTotalAmount(state.data)),
-                                  style: ConstTextStyles.blackF16W5,
-                                )),
-                                DataCell(Container()),
-                                DataCell(Container()),
-                              ]),
+                              // DataRow(cells: [
+                              //   DataCell(Container()),
+                              //   DataCell(Container()),
+                              //   const DataCell(Text(
+                              //     'Total',
+                              //     style: ConstTextStyles.blackF16W5,
+                              //   )),
+                              //   DataCell(Text(
+                              //     showPrice(getPurchaseTotalAmount(state.data)),
+                              //     style: ConstTextStyles.blackF16W5,
+                              //   )),
+                              //   DataCell(Container()),
+                              //   DataCell(Container()),
+                              // ]),
                             ],
                           ),
                         ],

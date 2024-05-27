@@ -83,6 +83,16 @@ class _YearlyReportScreenState extends State<YearlyReportScreen> {
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
                               DataColumn(
+                                  label: Text('Cash',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('Kpay',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
                                   label: Text('Action',
                                       style: TextStyle(
                                           fontSize: 18,
@@ -98,6 +108,10 @@ class _YearlyReportScreenState extends State<YearlyReportScreen> {
                                   DataCell(Text(showPrice(
                                       state.yearlyReports[i].totalAmount ??
                                           0))),
+                                  DataCell(Text(showPrice(
+                                      state.yearlyReports[i].cash ?? 0))),
+                                  DataCell(Text(showPrice(
+                                      state.yearlyReports[i].kpay ?? 0))),
                                   DataCell(InkWell(
                                     onTap: () {
                                       nextStfScreen(

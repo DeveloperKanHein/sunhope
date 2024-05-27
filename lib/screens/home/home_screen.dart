@@ -3,6 +3,8 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:get/get.dart';
 import 'package:sunhope_computer_software/constants/const_text_style.dart';
 import 'package:sunhope_computer_software/core/log/debug_log.dart';
+import 'package:sunhope_computer_software/core/next_screen.dart';
+import 'package:sunhope_computer_software/core/storage/app_storage.dart';
 import 'package:sunhope_computer_software/screens/bluetooth_screen/port_setup_screen.dart';
 import 'package:sunhope_computer_software/screens/category/category_screen.dart';
 import 'package:sunhope_computer_software/screens/customer/customer_list_screen.dart';
@@ -10,6 +12,7 @@ import 'package:sunhope_computer_software/screens/discount/discount_screen.dart'
 import 'package:sunhope_computer_software/screens/employee/employee_list_screen.dart';
 import 'package:sunhope_computer_software/screens/home/widgets/home_widet.dart';
 import 'package:sunhope_computer_software/screens/language/language_screen.dart';
+import 'package:sunhope_computer_software/screens/login/login_screen.dart';
 import 'package:sunhope_computer_software/screens/report/date_range_report_screen.dart';
 import 'package:sunhope_computer_software/screens/report/report_detail_screen.dart';
 import 'package:sunhope_computer_software/screens/service/service_list_screen.dart';
@@ -17,6 +20,7 @@ import 'package:sunhope_computer_software/screens/shop/shop_list_screen.dart';
 
 import '../../constants/languages.dart';
 import '../../core/bluetooth_setup/bluetooth_setup.dart';
+import '../../widgets/state_widgets.dart';
 import '../checkout/checkout_screen.dart';
 import '../report/daily_report_screen.dart';
 import '../report/monthly_report_screen.dart';
@@ -193,7 +197,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SideMenuItem(
                   title: Languages.logout.tr,
-                  onTap: (index, _) {},
+                  onTap: (index, _) {
+                    StateWidgets.showAlertDialog(
+                        context: context,
+                        title: "Logout?",
+                        message: "Are you sure to logout?",
+                        onPressedOK: () {
+                          AppStorage.clear.then((clear) {
+                            if (clear) {
+                              screenReplace(
+                                  context: context,
+                                  screen: const LoginScreen());
+                            }
+                          });
+                        });
+                  },
                   icon: const Icon(Icons.exit_to_app),
                 ),
               ],

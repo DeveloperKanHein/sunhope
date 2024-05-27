@@ -175,6 +175,16 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
                               DataColumn(
+                                  label: Text('Cash',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
+                                  label: Text('Kpay',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold))),
+                              DataColumn(
                                   label: Text('Action',
                                       style: TextStyle(
                                           fontSize: 18,
@@ -188,6 +198,10 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                                   DataCell(Text("${state.dailyReports[i].id}")),
                                   DataCell(Text(showPrice(
                                       state.dailyReports[i].totalAmount ?? 0))),
+                                  DataCell(Text(showPrice(
+                                      state.dailyReports[i].cash ?? 0))),
+                                  DataCell(Text(showPrice(
+                                      state.dailyReports[i].kpay ?? 0))),
                                   DataCell(InkWell(
                                     onTap: () {
                                       nextStfScreen(
@@ -203,18 +217,18 @@ class _DailyReportScreenState extends State<DailyReportScreen> {
                                     ),
                                   )),
                                 ]),
-                              DataRow(cells: [
-                                const DataCell(Text(
-                                  'Total',
-                                  style: ConstTextStyles.blackF16W5,
-                                )),
-                                DataCell(Text(
-                                  showPrice(
-                                      getDailyTotalAmount(state.dailyReports)),
-                                  style: ConstTextStyles.blackF16W5,
-                                )),
-                                DataCell(Container()),
-                              ]),
+                              // DataRow(cells: [
+                              //   const DataCell(Text(
+                              //     'Total',
+                              //     style: ConstTextStyles.blackF16W5,
+                              //   )),
+                              //   DataCell(Text(
+                              //     showPrice(
+                              //         getDailyTotalAmount(state.dailyReports)),
+                              //     style: ConstTextStyles.blackF16W5,
+                              //   )),
+                              //   DataCell(Container()),
+                              // ]),
                             ],
                           ),
                         ],

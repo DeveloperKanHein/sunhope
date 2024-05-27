@@ -1,11 +1,15 @@
 class Yearly {
   YearlyID? yearlyID;
   int? totalAmount;
+  int? cash;
+  int? kpay;
   int? count;
-  Yearly({this.yearlyID, this.totalAmount, this.count});
+  Yearly({this.yearlyID, this.totalAmount, this.cash, this.kpay, this.count});
   factory Yearly.fromJson(Map<String, dynamic> json) => Yearly(
       yearlyID: YearlyID.fromJson(json["_id"]),
       totalAmount: json['totalAmount'],
+      cash: json['cash'],
+      kpay: json['kpay'],
       count: json['count']);
   Map<String, dynamic> toJson() => {"totalAmount": totalAmount};
 }

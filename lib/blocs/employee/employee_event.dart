@@ -9,6 +9,11 @@ class GetEmployeeEvent extends EmployeeEvent {
   //
 }
 
+class SearchEmployeeEvent extends EmployeeEvent {
+  final String name;
+  SearchEmployeeEvent({required this.name});
+}
+
 class CreateEmployeeEvent extends EmployeeEvent {
   final Employee employee;
   CreateEmployeeEvent({required this.employee});
