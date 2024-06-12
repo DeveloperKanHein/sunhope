@@ -444,7 +444,7 @@ class _ApiRepositories implements ApiRepositories {
   }
 
   @override
-  Future<ResMessage> createCustomer(Customer customer) async {
+  Future<ResMessage> createCustomer(CustomerCreateReq customer) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -500,7 +500,7 @@ class _ApiRepositories implements ApiRepositories {
   }
 
   @override
-  Future<ResMessage> topup(FillTopup topup) async {
+  Future<ResMessage> topup(TopupReq topup) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -937,6 +937,93 @@ class _ApiRepositories implements ApiRepositories {
               baseUrl,
             ))));
     final value = PurchaseDetail.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<List<TopupHistory>> topupHistories() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<TopupHistory>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'dashboard/topup-histories',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) => TopupHistory.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<List<TopupHistory>> customerTopupHistories(String customer) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'customer': customer};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<TopupHistory>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'dashboard/customer-topup-histories',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) => TopupHistory.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<List<TopupHistory>> split(List<GoldSplitReq> reqBody) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = reqBody.map((e) => e.toJson()).toList();
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<TopupHistory>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'dashboard/customer-topup-histories',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) => TopupHistory.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

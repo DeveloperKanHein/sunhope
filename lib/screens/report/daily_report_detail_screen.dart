@@ -118,8 +118,8 @@ class _DailyDetailReportScreenState extends State<DailyDetailReportScreen> {
                                   DataCell(Text(state.data[i].shop == null
                                       ? ""
                                       : state.data[i].shop!.name!)),
-                                  DataCell(
-                                      Text("${state.data[i].customerName}")),
+                                  DataCell(Text(
+                                      "${state.data[i].customerId!.no}. ${state.data[i].customerName}")),
                                   DataCell(Text(showPrice(
                                       state.data[i].totalAmount ?? 0))),
                                   DataCell(

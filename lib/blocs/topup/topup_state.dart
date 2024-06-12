@@ -20,3 +20,20 @@ class TopupFillSuccess extends TopupState {
 class TopupFillError extends TopupState {
   //
 }
+
+class TopupHistoryLoading extends TopupState {
+  //
+}
+
+class TopupHistoryLoaded extends TopupState {
+  final List<TopupHistory> histories;
+  TopupHistoryLoaded({required this.histories});
+}
+
+class TopupHistoryEmpty extends TopupState {
+  //
+}
+
+class TopupHistoryError extends TopupState {
+  //
+}

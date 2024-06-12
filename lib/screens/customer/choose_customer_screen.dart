@@ -53,6 +53,10 @@ class _ChooseCustomerScreenState extends State<ChooseCustomerScreen> {
                 child: InputField(
                   controller: _search,
                   label: "Search",
+                  onSubmitted: (_) {
+                    _getCustomerBloc
+                        .add(SearchCustomerEvent(name: _search.text));
+                  },
                   onTyping: (_) {},
                   suffixWidget: InkWell(
                     onTap: () {
@@ -200,7 +204,8 @@ class _ChooseCustomerScreenState extends State<ChooseCustomerScreen> {
                                         getColor(customers[i].balance ?? 0)),
                                     cells: [
                                       DataCell(
-                                        Text(customers[i].name ?? ""),
+                                        Text(
+                                            "${customers[i].no}. ${customers[i].name}"),
                                         onTap: () {
                                           Navigator.pop(context,
                                               {"customer": customers[i]});
@@ -267,7 +272,7 @@ class _ChooseCustomerScreenState extends State<ChooseCustomerScreen> {
               barrierDismissible: false,
               context: context,
               builder: (_) => CustomerCreateForm(
-                    onCreate: (Customer customer) {
+                    onCreate: (customer) {
                       _createCustomerBloc
                           .add(CreateCustomerEvent(customer: customer));
                     },

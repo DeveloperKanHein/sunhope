@@ -4,6 +4,7 @@ import 'package:sunhope_computer_software/blocs/customer/customer_bloc.dart';
 import 'package:sunhope_computer_software/constants/const_text_style.dart';
 import 'package:sunhope_computer_software/screens/customer/widgets/customer_create_form.dart';
 import 'package:sunhope_computer_software/screens/customer/widgets/customer_edit_form.dart';
+import 'package:sunhope_computer_software/screens/topup/customer_topup_history_screen.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
 
 import '../../core/next_screen.dart';
@@ -56,6 +57,10 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                   controller: _search,
                   label: "Search",
                   onTyping: (_) {},
+                  onSubmitted: (_) {
+                    _getCustomerBloc
+                        .add(SearchCustomerEvent(name: _search.text));
+                  },
                   suffixWidget: InkWell(
                     onTap: () {
                       _getCustomerBloc
@@ -200,11 +205,6 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold))),
                               DataColumn(
-                                  label: Text('Remark',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold))),
-                              DataColumn(
                                   label: Text('Action',
                                       style: TextStyle(
                                           fontSize: 18,
@@ -217,13 +217,14 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                                         getColor(customers[i].balance ?? 0)),
                                     cells: [
                                       DataCell(Text('${i + 1}')),
-                                      DataCell(Text(customers[i].name ?? "")),
+                                      DataCell(Text(
+                                          "${customers[i].no}. ${customers[i].name}")),
                                       DataCell(Text(customers[i]
                                           .phone!
                                           .replaceAll(",", "\n"))),
                                       DataCell(Text(
                                           customers[i].balance.toString())),
-                                      DataCell(Text(customers[i].remark ?? "")),
+                                      // DataCell(Text(customers[i].remark ?? "")),
                                       DataCell(Row(
                                         children: [
                                           InkWell(
@@ -248,6 +249,21 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                                                 "Edit",
                                                 style:
                                                     ConstTextStyles.blueF14W4,
+                                              )),
+                                          const SizedBox(width: 15),
+                                          InkWell(
+                                              onTap: () {
+                                                nextStfScreen(
+                                                    context: context,
+                                                    screen:
+                                                        CustomerTopupHistoryScreen(
+                                                      customer: customers[i],
+                                                    ));
+                                              },
+                                              child: Text(
+                                                "Topup",
+                                                style: ConstTextStyles
+                                                    .blackF14W4Op65,
                                               )),
                                           const SizedBox(width: 15),
                                           InkWell(
@@ -286,7 +302,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
               barrierDismissible: false,
               context: context,
               builder: (_) => CustomerCreateForm(
-                    onCreate: (Customer customer) {
+                    onCreate: (customer) {
                       _createCustomerBloc
                           .add(CreateCustomerEvent(customer: customer));
                     },

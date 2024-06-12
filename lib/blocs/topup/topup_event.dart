@@ -6,7 +6,15 @@ abstract class TopupEvent extends Equatable {
 }
 
 class FillTopupEvent extends TopupEvent {
-  final String customerId;
-  final int amount;
-  FillTopupEvent({required this.customerId, required this.amount});
+  final TopupReq req;
+  FillTopupEvent({required this.req});
+}
+
+class GetTopupHistoryEvent extends TopupEvent {
+  //
+}
+
+class GetCustomerTopupHistoryEvent extends TopupEvent {
+  final String customer;
+  GetCustomerTopupHistoryEvent({required this.customer});
 }

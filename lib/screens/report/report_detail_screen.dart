@@ -59,7 +59,8 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                             children: [
                               const Icon(Icons.person,
                                   color: ConstColors.borderColor),
-                              Text(detail!.customerId!.name ?? "",
+                              Text(
+                                  "${detail!.customerId!.no}. ${detail!.customerId!.name}",
                                   style: ConstTextStyles.blackF14W4Op45),
                             ],
                           ),

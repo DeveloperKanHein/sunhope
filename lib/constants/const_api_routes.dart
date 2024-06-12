@@ -25,6 +25,9 @@ class ConstApiRoutes {
   static const String customers = "dashboard/customers";
   static const String searchCustomers = "dashboard/search-customers";
   static const String topup = "dashboard/topup";
+  static const String topupHistories = "dashboard/topup-histories";
+  static const String customerTopupHistories =
+      "dashboard/customer-topup-histories";
   static const String employee = "dashboard/employee";
   static const String employees = "dashboard/employees";
   static const String searchEmployee = "dashboard/search-employee";

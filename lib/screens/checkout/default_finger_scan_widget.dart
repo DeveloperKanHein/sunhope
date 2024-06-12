@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sunhope_computer_software/core/log/debug_log.dart';
 import 'package:sunhope_computer_software/core/serial_port/serial_port_handler.dart';
-import 'package:sunhope_computer_software/widgets/input_field.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../constants/const_text_style.dart';
 
 class DefaultFingerScanWidget extends StatefulWidget {
-  final Function(bool) onSuccess;
+  final Function(bool, String?) onSuccess;
   const DefaultFingerScanWidget({super.key, required this.onSuccess});
 
   @override
@@ -19,11 +20,11 @@ class DefaultFingerScanWidget extends StatefulWidget {
 class _DefaultFingerScanWidgetState extends State<DefaultFingerScanWidget> {
   double scanTime = 1.0;
   int fingerId = 1;
-
+  String? fingerData;
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(milliseconds: 100), (timer) {
+    var timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       if (scanTime < 10) {
         setState(() {
           scanTime++;
@@ -32,20 +33,24 @@ class _DefaultFingerScanWidgetState extends State<DefaultFingerScanWidget> {
         timer.cancel();
       }
     });
-    if (SerialPortHandler.portReader != null) {
-      SerialPortHandler.portReader!.stream.listen((data) {
-        setState(() {
-          fingerId = int.parse(utf8.decode(data));
-        });
-        if (fingerId == 0) {
-          Future.delayed(const Duration(seconds: 1)).then((_) {
-            widget.onSuccess(true);
-            SerialPortHandler.portReader!.close();
-            Navigator.pop(context);
+    SerialPortHandler.portReader!.stream.listen((data) {
+      debugLog(data);
+      if (data.isNotEmpty) {
+        if (mounted) {
+          setState(() {
+            fingerId = data[0];
+            fingerData = const Uuid().v4();
           });
         }
-      });
-    }
+        if (fingerId != 1) {
+          Future.delayed(const Duration(milliseconds: 200)).then((_) {
+            widget.onSuccess(true, fingerData);
+            // SerialPortHandler.portReader!.close();
+            timer.cancel();
+          });
+        }
+      }
+    });
   }
 
   @override
@@ -74,7 +79,7 @@ class _DefaultFingerScanWidgetState extends State<DefaultFingerScanWidget> {
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Text(
-                fingerId == 0 ? "SUCCESS" : "Scanning.....",
+                fingerId != 1 ? "SUCCESS" : "Scanning.....",
                 style: TextStyle(
                   color: scanTime == 10 ? Colors.green : Colors.grey,
                   fontWeight:
@@ -89,7 +94,10 @@ class _DefaultFingerScanWidgetState extends State<DefaultFingerScanWidget> {
       actions: [
         InkWell(
           onTap: () {
-            widget.onSuccess(true);
+            widget.onSuccess(true, fingerData);
+            if (SerialPortHandler.portReader != null) {
+              SerialPortHandler.portReader!.close();
+            }
             Navigator.pop(context);
           },
           child: Text(

@@ -8,6 +8,7 @@ class Languages extends Translations {
   static const String customers = "Customers";
   static const String employee = "Employee";
   static const String report = "Report";
+  static const String topup = "Topup";
   static const String yearly = "Yearly";
   static const String monthly = "Monthly";
   static const String daily = "Daily";
@@ -38,6 +39,7 @@ class Languages extends Translations {
           customers: customers,
           employee: employee,
           report: report,
+          topup: topup,
           yearly: yearly,
           monthly: monthly,
           daily: daily,
@@ -66,6 +68,7 @@ class Languages extends Translations {
           customers: "客戶",
           employee: "僱員",
           report: "報告",
+          topup: "儲值",
           yearly: "每年",
           monthly: "每月",
           daily: "每日",

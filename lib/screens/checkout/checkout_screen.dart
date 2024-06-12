@@ -46,6 +46,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 controller: _searchService,
                 label: "Search",
                 onTyping: (_) {},
+                onSubmitted: (_) {
+                  if (_searchService.text.isNotEmpty) {
+                    _getServiceBloc
+                        .add(SearchServiceEvent(name: _searchService.text));
+                  } else {
+                    _getServiceBloc.add(GetServiceEvent());
+                  }
+                },
                 suffixWidget: InkWell(
                     onTap: () {
                       if (_searchService.text.isNotEmpty) {

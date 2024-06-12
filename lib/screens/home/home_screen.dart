@@ -17,6 +17,7 @@ import 'package:sunhope_computer_software/screens/report/date_range_report_scree
 import 'package:sunhope_computer_software/screens/report/report_detail_screen.dart';
 import 'package:sunhope_computer_software/screens/service/service_list_screen.dart';
 import 'package:sunhope_computer_software/screens/shop/shop_list_screen.dart';
+import 'package:sunhope_computer_software/screens/topup/topup_history_screen.dart';
 
 import '../../constants/languages.dart';
 import '../../core/bluetooth_setup/bluetooth_setup.dart';
@@ -60,9 +61,17 @@ class _HomeScreenState extends State<HomeScreen> {
               // ),
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 20.0, top: 20, left: 40),
-                child: Image.asset(
-                  'assets/logo.png',
-                  width: 100,
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'assets/logo.png',
+                      width: 100,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(AppStorage.getName ?? ""),
+                    ),
+                  ],
                 ),
               ),
               footer: Padding(
@@ -140,6 +149,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: Languages.report.tr,
                   icon: const Icon(Icons.library_books),
                   children: [
+                    SideMenuItem(
+                      title: Languages.topup.tr,
+                      onTap: (index, _) {
+                        sideMenu.changePage(index);
+                      },
+                    ),
                     SideMenuItem(
                       title: Languages.yearly.tr,
                       onTap: (index, _) {
@@ -227,6 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const ServiceListScreen(),
                   const CustomerListScreen(),
                   const EmployeeeeListScreen(),
+                  const TopupHistoryScreen(),
                   const YearlyReportScreen(),
                   const MonthlyReportScreen(),
                   const DailyReportScreen(),

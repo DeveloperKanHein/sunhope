@@ -15,7 +15,7 @@ class SearchCustomerEvent extends CustomerEvent {
 }
 
 class CreateCustomerEvent extends CustomerEvent {
-  final Customer customer;
+  final CustomerCreateReq customer;
   CreateCustomerEvent({required this.customer});
 }
 

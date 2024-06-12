@@ -18,6 +18,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (res.status == "SUCCESS") {
           if (res.token != null) {
             await AppStorage.setToken(res.token!);
+            await AppStorage.setName(event.req.username!);
             await appConfig();
             emit(LoginSuccess(res: res));
           } else {

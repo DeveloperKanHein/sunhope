@@ -1,13 +1,16 @@
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
-import 'package:sunhope_computer_software/data/fill_topup.dart';
+import 'package:sunhope_computer_software/data/customer_create_req.dart';
+import 'package:sunhope_computer_software/data/topup_req.dart';
 import 'package:sunhope_computer_software/data/purchase.dart';
 import 'package:sunhope_computer_software/data/res_message.dart';
+import 'package:sunhope_computer_software/data/topup_history.dart';
 import '../../constants/const_api_routes.dart';
 import '../data/category.dart';
 import '../data/customer.dart';
 import '../data/daily.dart';
 import '../data/employee.dart';
+import '../data/gold_split_req.dart';
 import '../data/login_req.dart';
 import '../data/login_res.dart';
 import '../data/monthly.dart';
@@ -69,13 +72,13 @@ abstract class ApiRepositories {
   Future<List<Customer>> searchCustomers(@Query("name") String name);
 
   @POST(ConstApiRoutes.customer)
-  Future<ResMessage> createCustomer(@Body() Customer customer);
+  Future<ResMessage> createCustomer(@Body() CustomerCreateReq customer);
 
   @PUT(ConstApiRoutes.customer)
   Future<ResMessage> updateCustomer(@Body() Customer customer);
 
   @POST(ConstApiRoutes.topup)
-  Future<ResMessage> topup(@Body() FillTopup topup);
+  Future<ResMessage> topup(@Body() TopupReq topup);
 
   @GET(ConstApiRoutes.employees)
   Future<List<Employee>> employees();
@@ -122,4 +125,14 @@ abstract class ApiRepositories {
 
   @GET("${ConstApiRoutes.purchaseById}/{id}")
   Future<PurchaseDetail> purchaseById(@Path('id') String id);
+
+  @GET(ConstApiRoutes.topupHistories)
+  Future<List<TopupHistory>> topupHistories();
+
+  @GET(ConstApiRoutes.customerTopupHistories)
+  Future<List<TopupHistory>> customerTopupHistories(
+      @Query('customer') String customer);
+
+  @GET(ConstApiRoutes.customerTopupHistories)
+  Future<List<TopupHistory>> split(@Body() List<GoldSplitReq> reqBody);
 }

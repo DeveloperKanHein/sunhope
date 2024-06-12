@@ -5,6 +5,7 @@ class InputField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final Function(String) onTyping;
+  final Function(String)? onSubmitted;
   final TextInputType inputType;
   Widget? prefixWidget;
   Widget? suffixWidget;
@@ -13,6 +14,7 @@ class InputField extends StatelessWidget {
       required this.controller,
       required this.label,
       required this.onTyping,
+      this.onSubmitted,
       this.inputType = TextInputType.text,
       this.prefixWidget,
       this.suffixWidget});
@@ -20,10 +22,11 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return TextFormField(
+    return TextField(
       keyboardType: inputType,
       controller: controller,
       onChanged: onTyping,
+      onSubmitted: onSubmitted,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,

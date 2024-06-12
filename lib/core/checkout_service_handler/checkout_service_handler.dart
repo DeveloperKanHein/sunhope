@@ -2,7 +2,7 @@ import '../../data/service_req.dart';
 import '../../data/service.dart';
 
 class CheckoutServiceHandler {
-  static List<Service> _serviceList = [];
+  // static List<Service> _serviceList = [];
   static List<ServiceReq> services = [];
 
   static List<Map<String, dynamic>> toJsonList() {
@@ -14,10 +14,11 @@ class CheckoutServiceHandler {
   }
 
   static void addToCart(Service service) {
-    if (!_serviceList.contains(service)) {
-      _serviceList.add(service);
-      services.add(service.toReq());
-    }
+    services.add(service.toReq());
+    // if (!_serviceList.contains(service)) {
+    //   _serviceList.add(service);
+    //   services.add(service.toReq());
+    // }
   }
 
   static void duplicate(ServiceReq service) {
@@ -25,23 +26,35 @@ class CheckoutServiceHandler {
   }
 
   static void remove(Service service) {
-    if (_serviceList.contains(service)) {
-      _serviceList.remove(service);
-      for (int i = 0; i < services.length; i++) {
-        if (service.id == services[i].id) {
-          services.removeAt(i);
-          break;
-        }
+    for (int i = 0; i < services.length; i++) {
+      if (service.id == services[i].id) {
+        services.removeAt(i);
       }
     }
+    // if (_serviceList.contains(service)) {
+    //   _serviceList.remove(service);
+    //   for (int i = 0; i < services.length; i++) {
+    //     if (service.id == services[i].id) {
+    //       services.removeAt(i);
+    //       break;
+    //     }
+    //   }
+    // }
   }
 
   static bool checkExist(Service service) {
-    return _serviceList.contains(service);
+    // return _serviceList.contains(service);
+    for (int i = 0; i < services.length; i++) {
+      if (service.id == services[i].id) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   static void clear() {
-    _serviceList = [];
+    // _serviceList = [];
     services = [];
   }
 }

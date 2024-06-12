@@ -9,16 +9,14 @@ import 'package:sunhope_computer_software/core/log/debug_log.dart';
 import 'package:sunhope_computer_software/core/show_price.dart';
 import 'package:sunhope_computer_software/data/purchase.dart';
 import 'package:sunhope_computer_software/screens/customer/choose_customer_screen.dart';
-import 'package:sunhope_computer_software/screens/employee/choose_employee_screen.dart';
-import 'package:sunhope_computer_software/screens/employee/widgets/employee_dropdown_widget.dart';
 import 'package:sunhope_computer_software/screens/employee/widgets/search_employee_widget.dart';
 import 'package:sunhope_computer_software/widgets/input_field.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
-import 'package:uuid/uuid.dart';
 import '../../core/checkout_service_handler/checkout_service_handler.dart';
 import '../../data/customer.dart';
 import '../../data/employee.dart';
 import '../../data/service_req.dart';
+import '../../data/topup_req.dart';
 import 'default_finger_scan_widget.dart';
 import 'finger_scan_widget.dart';
 
@@ -32,6 +30,8 @@ class CheckOutProcessScreen extends StatefulWidget {
 
 class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
   final _topupAmount = TextEditingController();
+  final _topupCash = TextEditingController();
+  final _topupKpay = TextEditingController();
   final _cash = TextEditingController();
   final _kpay = TextEditingController();
   final CreatePurchaseBloc _bloc = CreatePurchaseBloc();
@@ -40,7 +40,8 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
   Employee? employee;
   String? guestName;
   String? customerFingerId;
-  // List<ServiceReq> CheckoutServiceHandler.services = [];
+  String? guestFingerId;
+  // List<ServiceReq> services = CheckoutServiceHandler.services;
   int getTotal(List<ServiceReq> services) {
     int total = 0;
     for (ServiceReq service in services) {
@@ -72,8 +73,13 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                       StateWidgets.hideLoading(context);
                       if (customer != null) {
                         setState(() {
-                          customer!.balance =
-                              customer!.balance! + int.parse(_topupAmount.text);
+                          customer!.balance = customer!.balance! +
+                              int.parse(_topupCash.text.isEmpty
+                                  ? "0"
+                                  : _topupCash.text) +
+                              int.parse(_topupKpay.text.isEmpty
+                                  ? "0"
+                                  : _topupKpay.text);
                           _topupAmount.clear();
                         });
                       }
@@ -229,20 +235,25 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                               barrierDismissible: false,
                               context: context,
                               builder: (_) => FingerScanWidget(
-                                    onSuccess: (name) {
+                                    onSuccess: (name, id) {
                                       setState(() {
                                         guestName = name;
+                                        guestFingerId = id;
                                       });
                                     },
                                   ));
                         },
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Text("Guest: "),
-                            Icon(
-                              Icons.fingerprint,
-                              size: 20,
+                            Text("Guest: ${guestName ?? ''}"),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Icon(
+                                Icons.fingerprint,
+                                size: 20,
+                              ),
                             ),
+                            Text(guestFingerId ?? ""),
                           ],
                         )),
                   ),
@@ -276,10 +287,10 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                             barrierDismissible: false,
                             context: context,
                             builder: (_) => DefaultFingerScanWidget(
-                                  onSuccess: (isDone) {
+                                  onSuccess: (isDone, id) {
                                     if (isDone) {
                                       setState(() {
-                                        customerFingerId = const Uuid().v4();
+                                        customerFingerId = id;
                                       });
                                     }
                                   },
@@ -296,6 +307,56 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                           ),
                         ],
                       )),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 180,
+                      height: 40,
+                      child: InputField(
+                        controller: _topupCash,
+                        label: 'Topup Cash Amount',
+                        inputType: TextInputType.number,
+                        onTyping: (_) {},
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: SizedBox(
+                        width: 180,
+                        height: 40,
+                        child: InputField(
+                          controller: _topupKpay,
+                          label: 'Topup K-Pay Amount',
+                          inputType: TextInputType.number,
+                          onTyping: (_) {},
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: SizedBox(
+                          width: 120,
+                          height: 35,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                final req = TopupReq();
+                                req.customer = customer!.id ?? "";
+                                req.cash = int.parse(_topupCash.text.isEmpty
+                                    ? "0"
+                                    : _topupCash.text);
+                                req.kpay = int.parse(_topupKpay.text.isEmpty
+                                    ? "0"
+                                    : _topupKpay.text);
+                                _topupBloc.add(FillTopupEvent(req: req));
+                              },
+                              child: const Text("Topup"))),
+                    )
+                  ],
                 ),
               ),
             ],
@@ -316,10 +377,6 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                       label: Text('Quantity',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold))),
-                  // DataColumn(
-                  //     label: Text('Discount',
-                  //         style: TextStyle(
-                  //             fontSize: 18, fontWeight: FontWeight.bold))),
                   DataColumn(
                       label: Text('Price',
                           style: TextStyle(
@@ -389,27 +446,21 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                           ),
                         ],
                       )),
-
-                      // DataCell(Text(showPrice(int.parse(
-                      //     '${CheckoutServiceHandler.services[i].discount}')))),
-
-                      // DataCell(Text(showPrice(int.parse(
-                      //     '${CheckoutServiceHandler.services[i].price}')))),
-
                       DataCell(
-                        TextFormField(
-                          initialValue: CheckoutServiceHandler.services[i].price
-                              .toString(),
-                          onChanged: (value) {
-                            setState(() {
-                              CheckoutServiceHandler.services[i].price =
-                                  int.parse(value);
-                            });
-                          },
-                          keyboardType: TextInputType.number,
-                        ),
+                        editablePrice(
+                            CheckoutServiceHandler.services[i].price ?? 0, i),
+                        // TextFormField(
+                        //   initialValue: CheckoutServiceHandler.services[i].price
+                        //       .toString(),
+                        //   onChanged: (value) {
+                        //     setState(() {
+                        //       CheckoutServiceHandler.services[i].price =
+                        //           int.parse(value);
+                        //     });
+                        //   },
+                        //   keyboardType: TextInputType.number,
+                        // ),
                       ),
-
                       DataCell(
                         InkWell(
                             onTap: () {
@@ -433,24 +484,6 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                                     .services[i].employeeName ??
                                 "Choose Service Girl")),
                       ),
-                      // DataCell(SizedBox(
-                      //   width: 100,
-                      //   height: 50,
-                      //   child: EmployeeDropdownWidget(
-                      //     employeeId:
-                      //         CheckoutServiceHandler.services[i].employeeId,
-                      //     onChoose: (Employee? employee) {
-                      //       if (employee != null) {
-                      //         setState(() {
-                      //           CheckoutServiceHandler.services[i].employeeId =
-                      //               employee.id;
-                      //           CheckoutServiceHandler
-                      //               .services[i].employeeName = employee.name;
-                      //         });
-                      //       }
-                      //     },
-                      //   ),
-                      // )),
                       DataCell(InkWell(
                         onTap: () {
                           setState(() {
@@ -471,8 +504,17 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                             InkWell(
                                 onTap: () {
                                   setState(() {
-                                    CheckoutServiceHandler.duplicate(
-                                        CheckoutServiceHandler.services[i]);
+                                    final service =
+                                        CheckoutServiceHandler.services[i];
+                                    CheckoutServiceHandler.services.add(
+                                        ServiceReq(
+                                            id: service.id,
+                                            name: service.name,
+                                            nameCN: service.nameCN,
+                                            price: service.price,
+                                            discount: service.discount));
+                                    // CheckoutServiceHandler.duplicate(
+                                    //     CheckoutServiceHandler.services[i]);
                                   });
                                 },
                                 child: const Icon(
@@ -484,6 +526,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                                 onTap: () {
                                   setState(() {
                                     CheckoutServiceHandler.services.removeAt(i);
+                                    CheckoutServiceHandler.services;
                                   });
                                 },
                                 child: const Icon(
@@ -500,12 +543,17 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                       style: ConstTextStyles.blackF16W5,
                     )),
                     DataCell(Container()),
-                    // DataCell(Container()),
                     DataCell(Text(
                       showPrice(getTotal(CheckoutServiceHandler.services)),
                       style: ConstTextStyles.blackF16W5,
                     )),
-                    DataCell(Container()),
+                    DataCell(InkWell(
+                        onTap: () {
+                          setState(() {
+                            CheckoutServiceHandler.services;
+                          });
+                        },
+                        child: Icon(Icons.refresh))),
                     DataCell(Container()),
                     DataCell(Container()),
                   ]),
@@ -587,9 +635,9 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                             onPressed: () {
                               if (_topupAmount.text.isNotEmpty &&
                                   customer != null) {
-                                _topupBloc.add(FillTopupEvent(
-                                    customerId: customer!.id!,
-                                    amount: int.parse(_topupAmount.text)));
+                                // _topupBloc.add(FillTopupEvent(
+                                //     customerId: customer!.id!,
+                                //     amount: int.parse(_topupAmount.text)));
                               }
                             },
                             child: const Text("Top-Up"),
@@ -620,8 +668,7 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
                             customerName: customer!.name,
                             customerFingerId: customerFingerId,
                             guestName: guestName,
-                            fingerId:
-                                guestName != null ? const Uuid().v4() : null,
+                            fingerId: guestFingerId,
                             totalAmount:
                                 getTotal(CheckoutServiceHandler.services),
                             cash: int.parse(
@@ -635,6 +682,18 @@ class _CheckOutProcessScreenState extends State<CheckOutProcessScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget editablePrice(int price, int index) {
+    final editor = TextEditingController();
+    editor.text = "$price";
+    return TextField(
+      controller: editor,
+      onChanged: (value) {
+        CheckoutServiceHandler.services[index].price = int.parse(value);
+      },
+      keyboardType: TextInputType.number,
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sunhope_computer_software/api_repository/api_repo_singleton.dart';
 import 'package:sunhope_computer_software/constants/const_api_routes.dart';
+import 'package:sunhope_computer_software/data/customer_create_req.dart';
 
 import '../../data/customer.dart';
 

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:sunhope_computer_software/constants/const_text_style.dart';
+import 'package:sunhope_computer_software/data/customer_create_req.dart';
 import 'package:sunhope_computer_software/widgets/input_field.dart';
 import 'package:sunhope_computer_software/widgets/state_widgets.dart';
 
 import '../../../data/customer.dart';
 
 class CustomerCreateForm extends StatelessWidget {
-  final Function(Customer) onCreate;
+  final Function(CustomerCreateReq) onCreate;
   CustomerCreateForm({super.key, required this.onCreate});
   final name = TextEditingController();
   final phone = TextEditingController();
   final balance = TextEditingController();
+  final cash = TextEditingController();
+  final kpay = TextEditingController();
   final remark = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -34,31 +37,27 @@ class CustomerCreateForm extends StatelessWidget {
                 inputType: TextInputType.phone,
               ),
             ),
+            // InputField(
+            //   controller: balance,
+            //   label: "Balance",
+            //   onTyping: (_) {},
+            //   inputType: TextInputType.number,
+            // ),
             InputField(
-              controller: balance,
-              label: "Balance",
+              controller: cash,
+              label: "Cash",
               onTyping: (_) {},
               inputType: TextInputType.number,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: InputField(
-                controller: remark,
-                label: "Remark",
+                controller: kpay,
+                label: "K-Pay",
                 onTyping: (_) {},
-                inputType: TextInputType.phone,
+                inputType: TextInputType.number,
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 15.0),
-            //   child: Row(
-            //     children: [
-            //       Expanded(
-            //           child: ElevatedButton(
-            //               onPressed: () {}, child: const Text("Create"))),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -75,12 +74,12 @@ class CustomerCreateForm extends StatelessWidget {
         const SizedBox(width: 15),
         InkWell(
           onTap: () {
-            onCreate(Customer(
-              name: name.text,
-              phone: phone.text,
-              balance: int.parse(balance.text),
-              remark: remark.text,
-            ));
+            final req = CustomerCreateReq();
+            req.name = name.text;
+            req.phone = phone.text;
+            req.cash = int.parse(cash.text.isEmpty ? "0" : cash.text);
+            req.kpay = int.parse(kpay.text.isEmpty ? "0" : kpay.text);
+            onCreate(req);
           },
           child: const Text(
             "Create",
