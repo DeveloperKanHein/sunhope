@@ -177,7 +177,7 @@ class _CustomerTopupHistoryScreenState
                                   DataCell(Text(state.histories[i].customer ==
                                           null
                                       ? ""
-                                      : state.histories[i].customer!.name!)),
+                                      : "${state.histories[i].customer!.no}. ${state.histories[i].customer!.name}")),
                                   DataCell(Text(
                                       showPrice(state.histories[i].cash ?? 0))),
                                   DataCell(Text(
